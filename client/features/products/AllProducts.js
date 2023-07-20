@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllProducts } from "../../server/store/allProductsSlice";
+import { getAllProducts } from "../../../client/store/allProductsSlice";
 import { NavLink } from "react-router-dom";
 
 export function AllProducts() {
