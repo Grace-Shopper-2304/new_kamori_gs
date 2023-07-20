@@ -9,3 +9,16 @@ const store = configureStore({
 
 export default store;
 export * from '../features/auth/authSlice';
+
+//David's edits are below. need to integrate into this store.js file/new repo
+// import {configureStore} from '@reduxjs/toolkit'
+// import allProductsSlice from './allProductsSlice'
+// import singleProductSlice from './singleProductSlice'
+// const store = configureStore({
+//   reducer: {
+//     products: allProductsSlice,
+//     singleProduct: singleProductSlice
+//   }
+// })
+
+// export default store
