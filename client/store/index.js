@@ -13,7 +13,7 @@ export default store
 
 
 
-/* below is from old boilerplate
+/*below is from old boilerplate
 
 import {createStore, combineReducers, applyMiddleware} from 'redux'
 import {createLogger} from 'redux-logger'

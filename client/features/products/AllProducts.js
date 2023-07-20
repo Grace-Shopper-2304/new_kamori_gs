@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllProducts } from "../../../client/store/allProductsSlice";
+import { getAllProducts, selectProducts } from "../../../client/store/allProductsSlice";
 import { NavLink } from "react-router-dom";
 
 export function AllProducts() {
@@ -10,8 +10,9 @@ export function AllProducts() {
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
+  
+  const products = useSelector(selectProducts);
 
-  const products = useSelector((state) => state.products.products);
  
   return (
     <>
