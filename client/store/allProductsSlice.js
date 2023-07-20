@@ -3,7 +3,8 @@ import axios from 'axios'
 
 export const getAllProducts = createAsyncThunk('getAllProducts', async () => {
   try {
-    const {data} = await axios.get(`/api/products`)
+    console.log('inside thunk');
+    const {data} = await axios.get(`/api/products`);
     return data
   } catch (err) {
     console.log(err)

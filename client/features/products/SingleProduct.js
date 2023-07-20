@@ -15,7 +15,7 @@ const SingleProduct = () => {
     dispatch(getOneProduct(id));
   }, []);
 
-  useEffect(() => {
+   useEffect(() => {
     if (product) {
       setUpdatedProduct({
         description: product.description,
@@ -23,7 +23,7 @@ const SingleProduct = () => {
         difficulty: product.difficulty,
       });
     }
-  }, [product]);
+  }, [product]); 
 
   const handleUpdateProduct = async (e) => {
     e.preventDefault(); // Prevent form submission
