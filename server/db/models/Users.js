@@ -15,7 +15,7 @@ const Users = db.define('users', {
       notEmpty: true
     }
   },
-  name: {
+  username: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
@@ -61,7 +61,7 @@ const Users = db.define('users', {
   }
 })
 
-module.exports = Users;
+module.exports = Users
 
 /**
  * instanceMethods
