@@ -1,8 +1,8 @@
-const db = require('./db')
-const Users = require('./models/Users')
-const Products = require('./models/Products')
-const Orders = require('./models/Orders')
-const OrderProducts = require('./models/OrderProducts')
+const db = require('../db')
+const Users = require('./Users')
+const Products = require('./Products')
+const Orders = require('./Orders')
+const OrderProducts = require('./OrderProducts')
 
 Users.hasMany(Orders)
 Orders.belongsTo(Users)
