@@ -20,8 +20,7 @@ async function seed() {
 
       let newUser = {
         email: faker.internet.email(),
-        username: faker.person.fullName(),
-        address: faker.location.streetAddress() + ", " + faker.location.city() + ", " + faker.location.state({ abbreviated: true }) +' '+ faker.location.zipCode('#####'),
+        username: faker.internet.userName(),        address: faker.location.streetAddress() + ", " + faker.location.city() + ", " + faker.location.state({ abbreviated: true }) +' '+ faker.location.zipCode('#####'),
         phone: faker.phone.number('+1 ###-###-####'),
         password: faker.internet.password(),
       }
