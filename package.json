@@ -1,7 +1,7 @@
 {
-  "name": "fs-app-template",
+  "name": "graceshopper",
   "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "description": "An e-commerce app for Fullstack Academy",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
