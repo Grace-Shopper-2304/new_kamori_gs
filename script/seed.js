@@ -42,10 +42,11 @@ async function seed() {
 
     // This for loop decides how many datapoints you will create.
     // If you want to change the amount, just change the number in the for loop!
-    for (let i = 0; i < 0; i++) {
+    for (let i = 0; i < 20; i++) {
       // The keys in this user object are set equal to the fake information
 
       let newOrders = {
+        userId: faker.number.int({ min: 1, max: 20 })
       }
 
       // For each fake user you create, you're going to push them into the user array you declare above
@@ -95,6 +96,9 @@ async function seed() {
       // The keys in this user object are set equal to the fake information
 
       let newOrderProducts = {
+        orderId: faker.number.int({ min: 1, max: 20 }),
+        productId: faker.number.int({ min: 1, max: 20 }),
+        quantity: faker.number.int({ min: 1, max: 50 }),
         //   quantity: quantity,
         //   price: finalPrice,
         //   productId: orderProductsCounter

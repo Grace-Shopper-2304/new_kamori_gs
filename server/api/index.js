@@ -7,6 +7,8 @@ router.use('/users', require('./users'))
 //Route to Get Products
 router.use('/products', require('./products'))
 
+router.use('/orders', require('./orders'))
+
 //Error Logging
 router.use((req, res, next) => {
   const error = new Error('Not Found')
