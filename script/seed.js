@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db/db')
-const {Users, Products, Orders, OrderProducts} = require('../server/db/models')
+const { Users, Products, Orders, OrderProducts } = require('../server/db/models')
 const { faker } = require('@faker-js/faker');
 
 async function seed() {
@@ -20,61 +20,60 @@ async function seed() {
 
       let newUser = {
         email: faker.internet.email(),
-        username: faker.internet.userName(),        address: faker.location.streetAddress() + ", " + faker.location.city() + ", " + faker.location.state({ abbreviated: true }) +' '+ faker.location.zipCode('#####'),
+        username: faker.internet.userName(),
+        address: faker.location.streetAddress() + ", " + faker.location.city() + ", " + faker.location.state({ abbreviated: true }) + ' ' + faker.location.zipCode('#####'),
         phone: faker.phone.number('+1 ###-###-####'),
-        password: faker.internet.password(),
+        // password: faker.internet.password({ length: 10}),
+        password: 'hi',
+
       }
+      console.log(`Password for user ${i + 1} is:`, newUser.password);
 
       // For each fake user you create, you're going to push them into the user array you declare above
       users.push(newUser)
     }
 
     // For each user in the array, you are going to create a new user instance in the database
-    users.forEach(async (user) => {
-      await Users.create(user)
+    await Promise.all(users.map((user) => Users.create(user)));
 
-    })
 
-     // Declare a variable and set it equal to an array. 
-     let orders = []
-  
-     // This for loop decides how many datapoints you will create.
-     // If you want to change the amount, just change the number in the for loop!
-     for (let i = 0; i < 0; i++) {
-       // The keys in this user object are set equal to the fake information
- 
-       let newOrders = {
-       }
- 
-       // For each fake user you create, you're going to push them into the user array you declare above
-       orders.push(newOrders)
-     }
- 
-     // For each user in the array, you are going to create a new user instance in the database
-     orders.forEach(async (order) => {
-       await Orders.create(order)
- 
-     })
+    // Declare a variable and set it equal to an array. 
+    let orders = []
 
-     // Declare a variable and set it equal to an array. 
+    // This for loop decides how many datapoints you will create.
+    // If you want to change the amount, just change the number in the for loop!
+    for (let i = 0; i < 0; i++) {
+      // The keys in this user object are set equal to the fake information
+
+      let newOrders = {
+      }
+
+      // For each fake user you create, you're going to push them into the user array you declare above
+      orders.push(newOrders)
+    }
+
+    // For each user in the array, you are going to create a new user instance in the database
+    await Promise.all(orders.map((order) => Orders.create(order)))
+
+    // Declare a variable and set it equal to an array. 
     let products = []
     // let prices = [] // Array to store the randomly generated prices
-  
+
     // This for loop decides how many datapoints you will create.
     // If you want to change the amount, just change the number in the for loop!
     for (let i = 0; i < 20; i++) {
-      const price = faker.commerce.price({ min: 1, max: 200})
+      const price = faker.commerce.price({ min: 1, max: 200 })
       // console.log(price)
       // prices.push(price)
       // The keys in this user object are set equal to the fake information
 
       let newProducts = {
         name: faker.commerce.productName(),
-            image: faker.image.urlLoremFlickr({ category: 'fashion' }),
-            description: faker.commerce.productAdjective(),
-            category: faker.commerce.product(),
-            price: price,
-            stock: '2'
+        image: faker.image.urlLoremFlickr({ category: 'fashion' }),
+        description: faker.commerce.productAdjective(),
+        category: faker.commerce.product(),
+        price: price,
+        stock: '2'
       }
 
       // For each fake user you create, you're going to push them into the user array you declare above
@@ -82,39 +81,33 @@ async function seed() {
     }
 
     // For each user in the array, you are going to create a new user instance in the database
-    products.forEach(async (product) => {
-      await Products.create(product)
+    await Promise.all(products.map((product) => Products.create(product)));
 
-    })
+    // Declare a variable and set it equal to an array. 
+    let orderProducts = []
+    // let orderProductsCounter = 1
 
-      // Declare a variable and set it equal to an array. 
-      let orderProducts = []
-      // let orderProductsCounter = 1
-
-      // This for loop decides how many datapoints you will create.
-      // If you want to change the amount, just change the number in the for loop!
-      for (let i = 0; i < 20; i++) {
+    // This for loop decides how many datapoints you will create.
+    // If you want to change the amount, just change the number in the for loop!
+    for (let i = 0; i < 20; i++) {
       // const quantity = faker.number.int({ min: 1, max: 2 })
       // const finalPrice = quantity === 2 ? prices[i] * 2 : prices[i] // Use the stored price for the corresponding order product. Double the price if quantity is 2, otherwise use the regular price
-        // The keys in this user object are set equal to the fake information
+      // The keys in this user object are set equal to the fake information
 
-        let newOrderProducts = {
+      let newOrderProducts = {
         //   quantity: quantity,
         //   price: finalPrice,
         //   productId: orderProductsCounter
-        }
-  
-        // For each fake user you create, you're going to push them into the user array you declare above
-        orderProducts.push(newOrderProducts)
-        // orderProductsCounter++; // Increment the orderProducts counter variable
-
       }
-  
-      // For each user in the array, you are going to create a new user instance in the database
-      orderProducts.forEach(async (oProduct) => {
-        await OrderProducts.create(oProduct)
-  
-      })
+
+      // For each fake user you create, you're going to push them into the user array you declare above
+      orderProducts.push(newOrderProducts)
+      // orderProductsCounter++; // Increment the orderProducts counter variable
+
+    }
+
+    // For each user in the array, you are going to create a new user instance in the database
+    await Promise.all(orderProducts.map((oProduct) => OrderProducts.create(oProduct)));
 
     console.log(`seeded ${users.length} users. Woof~`)
     console.log(`seeded ${orders.length} orders. Woof~`)
@@ -128,9 +121,11 @@ async function seed() {
   console.log(`seeded successfully`)
 }
 
-// We've separated the `seed` function from the `runSeed` function.
-// This way we can isolate the error handling and exit trapping.
-// The `seed` function is concerned only with modifying the database.
+/*
+ We've separated the `seed` function from the `runSeed` function.
+ This way we can isolate the error handling and exit trapping.
+ The `seed` function is concerned only with modifying the database.
+*/
 async function runSeed() {
   console.log('seeding...')
   try {
@@ -138,16 +133,19 @@ async function runSeed() {
   } catch (err) {
     console.error(err)
     process.exitCode = 1
-  } finally {
+  }
+  finally {
     console.log('closing db connection')
-    // await db.close()
+    await db.close()
     console.log('db connection closed')
   }
 }
 
-// Execute the `seed` function, IF we ran this module directly (`node seed`).
-// `Async` functions always return a promise, so we can use `catch` to handle
-// any errors that might occur inside of `seed`.
+/*
+  Execute the `seed` function, IF we ran this module directly (`node seed`).
+  `Async` functions always return a promise, so we can use `catch` to handle
+  any errors that might occur inside of `seed`.
+*/
 if (module === require.main) {
   runSeed()
 }

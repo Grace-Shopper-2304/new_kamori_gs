@@ -42,24 +42,21 @@ const Users = db.define('users', {
     type: Sequelize.BOOLEAN,
     defaultValue: false
   },
-  password: {
-    //pw & salt are boilerplate, leaving them in case we need them later
-    type: Sequelize.STRING,
-    // Making `.password` act like a func hides it when serializing to JSON.
-    // This is a hack to get around Sequelize's lack of a "private" option.
-    get() {
-      return () => this.getDataValue('password')
+    password: {
+      type: Sequelize.STRING,
+      // Remove the inner function and return the data value directly
+      get() {
+        return this.getDataValue('password');
+      }
+    },
+    salt: {
+      type: Sequelize.STRING,
+      // Remove the inner function and return the data value directly
+      get() {
+        return this.getDataValue('salt');
+      }
     }
-  },
-  salt: {
-    type: Sequelize.STRING,
-    // Making `.salt` act like a function hides it when serializing to JSON.
-    // This is a hack to get around Sequelize's lack of a "private" option.
-    get() {
-      return () => this.getDataValue('salt')
-    }
-  }
-})
+  });
 
 module.exports = Users
 
@@ -90,28 +87,33 @@ Users.authenticate = async function({ username, password }){
 
 Users.findByToken = async function(token) {
   try {
-    const {id} = await jwt.verify(token, process.env.JWT)
-    const user = User.findByPk(id)
+    const { id } = await jwt.verify(token, process.env.JWT);
+    const user = await Users.findByPk(id, {
+      attributes: { include: ['password', 'salt'] }
+    });
+
     if (!user) {
-      throw 'nooo'
+      throw 'nooo';
     }
-    return user
+
+    return user;
   } catch (ex) {
-    const error = Error('bad token')
-    error.status = 401
-    throw error
+    const error = Error('bad token');
+    error.status = 401;
+    throw error;
   }
-}
+};
 
 /**
  * hooks
  */
-const hashPassword = async(user) => {
-  //in case the password has been changed, we want to encrypt it with bcrypt
+const hashPassword = async (user) => {
   if (user.changed('password')) {
-    user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
+    const salt = await bcrypt.genSalt(SALT_ROUNDS);
+    user.password = await bcrypt.hash(user.password, salt);
+    user.salt = salt; // Set the 'salt' field with the generated salt value
   }
-}
+};
 
 Users.beforeCreate(hashPassword)
 Users.beforeUpdate(hashPassword)
