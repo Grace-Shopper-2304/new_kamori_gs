@@ -18,6 +18,7 @@ const App = () => {
     <div>
       <Navbar />
       <AppRoutes />
+      <table>
       <tbody>
         {
           products.map(product => {
@@ -30,6 +31,8 @@ const App = () => {
           })
         }
       </tbody>
+      </table>
+      
     </div>
   );
 };
