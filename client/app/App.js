@@ -20,16 +20,21 @@ const App = () => {
       <AppRoutes />
       <table>
       <tbody>
-        {
-          products.map(product => {
+        
+          <div className="all-products-container">
+          {products.map(product => {
             return (
+              <div className="product-container">
               <tr>
                 <Products
                 product={product}/>
               </tr>
+              </div>
             )
           })
+        
         }
+        </div>
       </tbody>
       </table>
       
