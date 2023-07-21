@@ -6,6 +6,10 @@ const Orders = db.define('orders', {
     type: Sequelize.BOOLEAN,
     defaultValue: false
   }
+},
+{
+  freezeTableName: true,
+  tableName: "orders"
 })
 
 module.exports = Orders

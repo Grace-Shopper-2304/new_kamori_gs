@@ -5,7 +5,10 @@ const pkg = require('../../package.json')
 const graceshopper = pkg.name + (process.env.NODE_ENV === 'test' ? '-test' : '')
 
 const config = {
-  logging: false
+  logging: false, // unless you like the logs
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS
 };
 
 if(process.env.LOGGING === 'true'){
