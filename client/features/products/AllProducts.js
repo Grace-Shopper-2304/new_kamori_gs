@@ -11,6 +11,7 @@ export function AllProducts() {
   }, [dispatch]);
 
   const products = useSelector(selectProducts);
+  console.log('products!', products)
 
   return (
     <>

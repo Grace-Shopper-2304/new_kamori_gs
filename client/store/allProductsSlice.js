@@ -25,7 +25,7 @@ const allProductsSlice = createSlice({
 })
 
 export const selectProducts = state => {
-  return state.products
+  return state.products.products
 }
 
 export default allProductsSlice.reducer
