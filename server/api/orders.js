@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Orders, Users} = require('../db/models')
+const {Orders, Users, OrderProducts} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -21,10 +21,25 @@ router.post("/", async (req, res, next) => {
     }
   });
 
+// this route shows just order completed boolean and user info
 router.get("/:id", async (req, res, next) => {
     try {
-      const order = await Orders.findByPk(req.params.id);
+      const order = await Orders.findByPk(req.params.id, {
+        include: [Users]});
       res.json(order);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+// this route shows us all products in a certain order
+  router.get("/:id/products", async (req, res, next) => {
+    try {
+      const products = await OrderProducts.findAll({
+        where: { orderId: req.params.id },
+        /* include: [Users], */
+      });
+      res.json(products);
     } catch (error) {
       next(error);
     }
