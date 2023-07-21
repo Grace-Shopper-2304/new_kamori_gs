@@ -6,7 +6,7 @@ const Products = ({ product, onDeleteProducts }) => {
     <section>
       <Link to={`/products/${product.id}`}>
         <div>{product.name}</div>
-        <div>{product.image}</div>
+        <img src={product.image} alt={product.name} />
         <div>{product.description}</div>
         <div> {product.category}</div>
         <div> {product.price}</div>
