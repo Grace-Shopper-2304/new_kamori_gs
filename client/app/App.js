@@ -1,20 +1,43 @@
-import React from 'react';
-
+import React, {useEffect} from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { getAllProducts, selectProducts } from "../store/allProductsSlice";
 import Navbar from '../features/navbar/Navbar';
 import AppRoutes from './AppRoutes';
-import { Route, Routes } from "react-router-dom";
-import { AllProducts } from '../features/products/AllProducts';
-import SingleProduct from "../features/products/SingleProduct";
+import  Products from '../features/products/Products';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [dispatch]);
+
+  const products = useSelector(selectProducts);
+
   return (
     <div>
       <Navbar />
       <AppRoutes />
-      <Routes>
-        <Route path="/products" element={<AllProducts />} />
-        <Route path="/products/:id" element={<SingleProduct />} />
-      </Routes>
+      <table>
+      <tbody>
+        
+          <div className="all-products-container">
+          {products.map(product => {
+            return (
+              <div className="product-container">
+              <tr>
+                <Products
+                product={product}/>
+              </tr>
+              </div>
+            )
+          })
+        
+        }
+        </div>
+      </tbody>
+      </table>
+      
     </div>
   );
 };
