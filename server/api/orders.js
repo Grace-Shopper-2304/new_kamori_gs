@@ -37,7 +37,7 @@ router.get("/:id", async (req, res, next) => {
     try {
       const products = await OrderProducts.findAll({
         where: { orderId: req.params.id },
-        /* include: [Users], */
+        include: [Orders], 
       });
       res.json(products);
     } catch (error) {
