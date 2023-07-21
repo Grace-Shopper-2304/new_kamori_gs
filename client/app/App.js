@@ -4,6 +4,7 @@ import Navbar from '../features/navbar/Navbar';
 import AppRoutes from './AppRoutes';
 import { Route, Routes } from "react-router-dom";
 import { AllProducts } from '../features/products/AllProducts';
+import SingleProduct from "../features/products/SingleProduct";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <AppRoutes />
       <Routes>
         <Route path="/products" element={<AllProducts />} />
+        <Route path="/products/:id" element={<SingleProduct />} />
       </Routes>
     </div>
   );
