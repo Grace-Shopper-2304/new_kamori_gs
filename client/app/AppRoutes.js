@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import AuthForm from '../features/auth/AuthForm';
 import Home from '../features/home/Home';
-import { me } from './store';
+import { me } from '../store/store';
 import {AllProducts} from "../features/products/AllProducts"
 
 /**
