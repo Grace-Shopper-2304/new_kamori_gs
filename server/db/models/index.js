@@ -10,7 +10,12 @@ Orders.belongsTo(Users)
 Orders.hasMany(OrderProducts)
 OrderProducts.belongsTo(Orders)
 
-Products.hasMany(OrderProducts)
+Products.hasMany(OrderProducts, {
+    foreignKey: 'productId', // Replace 'productId' with the actual foreign key in the OrderProducts table that references the Products table
+    sourceKey: 'id', // Replace 'id' with the actual primary key of the Products table
+    // Add "price" to the list of fields to include in the association
+    targetKey: 'price', // Replace 'price' with the actual column name for the price in the Products table
+  });
 OrderProducts.belongsTo(Products)
 
 module.exports = {

@@ -25,7 +25,7 @@ router.post("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
       const order = await Orders.findByPk(req.params.id, {
-        include: [Users]});
+        include: [Users, OrderProducts]});
       res.json(order);
     } catch (error) {
       next(error);
@@ -33,7 +33,7 @@ router.get("/:id", async (req, res, next) => {
   });
 
 // this route shows us all products in a certain order
-  router.get("/:id/products", async (req, res, next) => {
+  router.get("/:id/orderProducts", async (req, res, next) => {
     try {
       const products = await OrderProducts.findAll({
         where: { orderId: req.params.id },
@@ -44,4 +44,17 @@ router.get("/:id", async (req, res, next) => {
       next(error);
     }
   });
+
+/*   // this route shows us all products in a certain order
+  router.get("/:id", async (req, res, next) => {
+    try {
+      const products = await Orders.findAll({
+        where: { userId: req.params.id },
+        include: [Products, Orders], 
+      });
+      res.json(products);
+    } catch (error) {
+      next(error);
+    }
+  }); */
 
