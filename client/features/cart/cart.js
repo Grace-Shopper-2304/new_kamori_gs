@@ -9,12 +9,16 @@ export const Cart = () => {
   const dispatch = useDispatch()
   const userId = useSelector(state => state.auth.me.id)
   const username = useSelector(state => state.auth.me.username);
- 
+
 
   useEffect(() => {
-    dispatch(me())
-    dispatch(getOrders(userId));
-  }, [dispatch]);
+    const fetchData = async () => {
+      dispatch(me());
+      dispatch(getOrders(userId));
+    };
+    fetchData();
+  }, [dispatch, userId]);
+
   //get array of products for logged in user
   //const loggedInProducts = useSelector(state => state.nameOfReducer.products)
 

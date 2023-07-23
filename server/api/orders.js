@@ -4,18 +4,12 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
     try {
-      const { userId } = req.query; // Extract userId from the query param
-   // If userId is provided, filter orders based on it, else return all orders
-      const filterOptions = userId ? { where: { userId } } : {};
-  
       const orders = await Orders.findAll({
-        ...filterOptions,
         include: [Users],
       });
-      
       res.json(orders);
     } catch (err) {
-      next(err);
+    console.log(err);
     }
   });
 
@@ -51,16 +45,18 @@ router.get("/:id", async (req, res, next) => {
     }
   });
 
-/*   // this route shows us all products in a certain order
-  router.get("/:id", async (req, res, next) => {
+  //gets all orders for a specific user
+  router.get("/user/:id", async (req, res, next) => {
     try {
-      const products = await Orders.findAll({
-        where: { userId: req.params.id },
-        include: [Products, Orders], 
+      const { id } = req.params;
+      
+      const orders = await Orders.findAll({
+     where: { userId: id },
+        include: [Users, OrderProducts],
       });
-      res.json(products);
+      res.json(orders);
     } catch (error) {
       next(error);
     }
-  }); */
+  });
 
