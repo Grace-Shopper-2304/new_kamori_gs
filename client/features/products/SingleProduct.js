@@ -20,21 +20,27 @@ const SingleProduct = () => {
 
    /* useEffect(() => {
     if (product) {
+      // Update state with the fetched product details
       setUpdatedProduct({
+        name: product.name,
+        image: product.image,
         description: product.description,
         category: product.category,
-        difficulty: product.difficulty,
+        price: product.price,
+        stock: product.stock,
       });
     }
-  }, [product]); 
+  }, [product]);
 
   const handleUpdateProduct = async (e) => {
     e.preventDefault(); // Prevent form submission
 
     try {
-      await dispatch(editProductAsync({ id, ...updatedProduct }));
+      // Dispatch the updateProduct action with the updatedProduct details
+      await dispatch(updateProduct({ id, ...updatedProduct }));
 
-      dispatch(getOneProduct(id));
+      // Refetch the product data to display the updated details
+      dispatch(getSingleProduct(id));
     } catch (error) {
       console.error("Error updating product:", error);
     }
@@ -60,12 +66,32 @@ const SingleProduct = () => {
           {/*  <h2>Update Product</h2>
           <form onSubmit={handleUpdateProduct}>
             <div>
+              <label htmlFor="name">Name:</label> 
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={updatedProduct.name}
+                onChange={handleChange}
+              /> 
+            </div>
+            <div>
+              <label htmlFor="image">Image:</label> 
+              <input
+                type="text"
+                id="image"
+                name="image"
+                value={updatedProduct.image}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
               <label htmlFor="description">Description:</label> 
               <input
-                type="text" //Update all of this andbelow with product details
+                type="text"
                 id="description"
                 name="description"
-                value={updateProduct.description}
+                value={updatedProduct.description}
                 onChange={handleChange}
               />
             </div>
@@ -75,17 +101,27 @@ const SingleProduct = () => {
                 type="text"
                 id="category"
                 name="category"
-                value={updateProduct.category}
+                value={updatedProduct.category}
                 onChange={handleChange}
               />
             </div>
             <div>
-              <label htmlFor="difficulty">Difficulty:</label>
+              <label htmlFor="price">Price:</label>
               <input
                 type="number"
-                id="difficulty"
-                name="difficulty"
-                value={updatedTask.difficulty}
+                id="price"
+                name="price"
+                value={updatedProduct.price}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="stock">Stock:</label> 
+              <input
+                type="number"
+                id="stock"
+                name="stock"
+                value={updatedProduct.stock}
                 onChange={handleChange}
               />
             </div>

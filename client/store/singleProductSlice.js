@@ -1,52 +1,53 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-import axios from 'axios'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 export const getSingleProduct = createAsyncThunk(
   'products/productId',
-  async id => {
+  async (id, { rejectWithValue }) => {
     try {
       const {data} = await axios.get(`/api/products/${id}`)
-      console.log('data!', data)
       return data
     } catch (err) {
-      console.log(err)
+      return rejectWithValue(err.response.data); // Returning the error data
     }
   }
-)
+);
 
 export const updateProduct = createAsyncThunk(
   'updateProduct',
-  async ({id, stock}) => {
+  async ({ id, stock }, { rejectWithValue }) => {
     try {
-      const {data} = await axios.put(`/api/products/${id}`, {
-        stock
-      })
-      return data
+      const { data } = await axios.put(`/api/products/${id}`, { stock });
+      return data;
     } catch (err) {
-      console.log(err)
+      return rejectWithValue(err.response.data); // Returning the error data
     }
   }
-)
+);
 
-const initialState = {}
+const initialState = {};
 
 const singleProductSlice = createSlice({
   name: 'singleProduct',
   initialState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(getSingleProduct.fulfilled, (state, {payload}) => {
-       state.singleProduct = payload
-      })
-      .addCase(updateProduct.fulfilled, (state, action) => {
+      .addCase(getSingleProduct.fulfilled, (state, action) => {
         return action.payload
       })
-  }
-})
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        return action.payload;
+      })
+      .addCase(updateProduct.rejected, (state) => {
+        // Clear the state on error
+        return initialState;
+      });
+  },
+});
 
-export const selectSingleProduct = state => {
-  return state.singleProduct
-}
+export const selectSingleProduct = (state) => {
+  return state.singleProduct;
+};
 
-export default singleProductSlice.reducer
+export default singleProductSlice.reducer;
