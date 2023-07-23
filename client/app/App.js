@@ -6,6 +6,7 @@ import AppRoutes from './AppRoutes';
 import  Products from '../features/products/Products';
 import { useLocation } from 'react-router-dom';
 import { Cart } from '../features/cart/cart';
+import SingleProduct from '../features/products/SingleProduct';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const App = () => {
   const location = useLocation();
   const isProductsPage = location.pathname === '/products';
   const isCart = location.pathname === '/cart';
+  const isSingleProduct = location.pathname === `/products/4`;
   //this location stuff is here because the front end routes arent working yet
 
   return (
@@ -45,6 +47,9 @@ const App = () => {
       )}
       {isCart && (
         <Cart />
+      )}
+       {isSingleProduct && (
+        <SingleProduct />
       )}
     </div>
   );

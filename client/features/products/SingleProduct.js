@@ -5,17 +5,20 @@ import { Link, useParams } from "react-router-dom";
 
 const SingleProduct = () => {
   const dispatch = useDispatch();
-  const task = useSelector((state) => state.tasks.singleProduct);
-  const [updateProduct, setUpdatedProduct] = useState({
+/*   const [updateProduct, setUpdatedProduct] = useState({
     // Insert Product Details for Use State
-  });
+  }); */
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(getOneProduct(id));
-  }, []);
+    if (id) {
+      dispatch(getSingleProduct(id));
+    }
+  }, [dispatch, id]);
 
-   useEffect(() => {
+  const product = useSelector((state) => state.singleProduct.singleProduct);
+
+   /* useEffect(() => {
     if (product) {
       setUpdatedProduct({
         description: product.description,
@@ -42,29 +45,19 @@ const SingleProduct = () => {
       ...updatedProduct,
       [e.target.name]: e.target.value,
     });
-  };
+  }; */
 
   return (
     <>
       {product ? (
         <div>
-          <h2>Product Details</h2>
+          <h2>{product.name}</h2>
+          <img src={`${product.image}`} className="product-img" />
           <p>Description: {product.description}</p>
-          <p>Category: {product.category}</p>
-          <p>Difficulty: {product.difficulty}</p>
-          <p>Status: {product.complete ? "Complete" : "Not Complete"}</p>
-          <p>
-            Assigned User:{" "}
-            {product.User ? (
-              <Link
-                to={`/users/${product.User.id}`}
-              >{`${product.User.firstName} ${product.User.lastName}`}</Link>
-            ) : (
-              "No assigned user"
-            )}
-          </p>
+          <p>Price: {product.price}</p>
+
           
-          <h2>Update Product</h2>
+          {/*  <h2>Update Product</h2>
           <form onSubmit={handleUpdateProduct}>
             <div>
               <label htmlFor="description">Description:</label> 
@@ -97,7 +90,7 @@ const SingleProduct = () => {
               />
             </div>
             <button type="submit">Update</button>
-          </form>
+          </form> */}
         </div>
       ) : (
         <p>Loading product...</p>
