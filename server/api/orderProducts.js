@@ -25,3 +25,13 @@ router.put('/:id/increase', async (req, res, next) => {
       next(error);
     }
   });
+
+  router.delete("/:id", async (req, res, next) => {
+    try {
+      const product = await OrderProducts.findByPk(req.params.id);
+      await product.destroy();
+      res.send(product);
+    } catch (error) {
+      next(error);
+    }
+  });

@@ -35,6 +35,11 @@ export const incrementProduct = createAsyncThunk(
     }
   );
 
+  export const removeFromCart = createAsyncThunk("removeFromCart", async (id) => {
+    const { data } = await axios.delete(`/api/orderProducts/${id}`);
+    return data;
+  });
+
 const orderProductsSlice = createSlice({
   name: 'orderProducts',
   initialState: {
@@ -56,7 +61,10 @@ const orderProductsSlice = createSlice({
         if (updatedOrderProduct) {
           updatedOrderProduct.quantity = payload.quantity;
         }
-      });
+      })
+      .addCase(removeFromCart.fulfilled, (state, { payload }) => {
+        state.orderProducts = state.orderProducts.filter((product) => product.id !== payload.id);
+      })
   }
 });
 

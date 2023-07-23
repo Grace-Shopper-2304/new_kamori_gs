@@ -4,7 +4,7 @@ import {connect, useDispatch, useSelector} from 'react-redux'
 import { getIncompleteOrders } from '../../store/ordersSlice'
 import { me } from '../auth/authSlice'
 import { getOrderProducts } from '../../store/orderProductsSlice'
-import { incrementProduct, decrementProduct } from '../../store/orderProductsSlice'
+import { incrementProduct, decrementProduct, removeFromCart } from '../../store/orderProductsSlice'
 //import async thunk to get products for logged in user
 
 export const Cart = () => {
@@ -39,6 +39,10 @@ const handleDecrement = (orderProductId) => {
   dispatch(decrementProduct(orderProductId));
 };
 
+const handleRemove = (orderProductId) => {
+  dispatch(removeFromCart(orderProductId));
+};
+
 if (!userId || orders.length === 0 || !orderProducts) {
   return null;
 }
@@ -59,7 +63,7 @@ if (!userId || orders.length === 0 || !orderProducts) {
               <p>Price: {orderProduct.product.price}</p>
               <p>Quantity: {orderProduct.quantity} <button onClick={() => handleIncrement(orderProduct.id)}>+</button>
               <button onClick={() => handleDecrement(orderProduct.id)}>-</button></p>
-               {/*   <p><button onClick={removeFromCart}>Remove Item</button></p> */}
+                 <p><button onClick={() => handleRemove(orderProduct.id)}>Remove Item</button></p> 
               </>
                ) : (
                 <p>Product data not available...</p> 
