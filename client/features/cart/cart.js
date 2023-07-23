@@ -54,13 +54,13 @@ if (!userId || orders.length === 0 || !orderProducts) {
         <>
        {orders.map((order) => (
         <div key={order.id}>
-          <h3>Order ID: {order.id}</h3>
-          {orderProducts.map((orderProduct) => (
+          {orderProducts.length > 0 ? (
+          orderProducts.map((orderProduct) => (
             <div key={orderProduct.id}>
                {orderProduct.product ? ( 
                 <>
               <p>Product: {orderProduct.product.name}</p>
-              <p>Price: {orderProduct.product.price}</p>
+              <p>Price: {orderProduct.product.price}({orderProduct.quantity}) =  ${orderProduct.product.price * orderProduct.quantity}</p>
               <p>Quantity: {orderProduct.quantity} <button onClick={() => handleIncrement(orderProduct.id)}>+</button>
               <button onClick={() => handleDecrement(orderProduct.id)}>-</button></p>
                  <p><button onClick={() => handleRemove(orderProduct.id)}>Remove Item</button></p> 
@@ -68,17 +68,25 @@ if (!userId || orders.length === 0 || !orderProducts) {
                ) : (
                 <p>Product data not available...</p> 
                )}
-           
+                
             </div>
-          ))}
+          ))
+          ) : (
+            <p>Your cart is empty!</p>
+          )}
         </div>
       ))}
-     </> ) : (
-   
-        <div> 
-          Not logged in stuff here
-          </div>
-      )}
+    </>
+  ) : (
+    <div>
+      Not logged in stuff here
+    </div>
+  )}  
+  { orderProducts.length > 0 ? (
+    <>
+    <h2>Your total is ${orderProducts.reduce((total, orderProduct) => total + orderProduct.product.price * orderProduct.quantity, 0)}</h2>
+  <button type="button">Checkout</button> 
+  </>) : ( null ) }
 
                {/*
             //if logged in get items for that user
@@ -115,7 +123,7 @@ if (!userId || orders.length === 0 || !orderProducts) {
           */}
            
 
-           <button type="button">Checkout</button> 
+         
 
         </div>
   )
