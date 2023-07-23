@@ -68,9 +68,9 @@ const SingleProduct = () => {
           <p>Name: {product.name}</p>
           <img src={`${product.image}`} className="product-img" />
           <p>Description: {product.description}</p>
-          <p>Price: {product.price}</p>
+          <p>Price: ${product.price}</p>
     
-          
+          <button>Add to Cart</button>
          {/*  <h2>Update Product</h2>
           <form onSubmit={handleUpdateProduct}>
             <div>
