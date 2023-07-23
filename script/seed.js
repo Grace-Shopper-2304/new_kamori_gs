@@ -99,9 +99,8 @@ async function seed() {
       for (const product of allProducts) {
         const orderProductData = {
           orderId: faker.number.int({ min: 1, max: 20 }),
-          productId: product.id,
+          productId: faker.number.int({ min: 1, max: 20 }),
           quantity: faker.number.int({ min: 1, max: 5 }),
-          price: product.price,
         };
       
         await OrderProducts.create(orderProductData);

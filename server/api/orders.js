@@ -3,15 +3,21 @@ const {Orders, Users, OrderProducts, Products} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
-  try {
-    const orders = await Orders.findAll({
-        include: [Users], 
-      })
-    res.json(orders)
-  } catch (err) {
-    next(err)
-  }
-})
+    try {
+      const { userId } = req.query; // Extract userId from the query param
+   // If userId is provided, filter orders based on it, else return all orders
+      const filterOptions = userId ? { where: { userId } } : {};
+  
+      const orders = await Orders.findAll({
+        ...filterOptions,
+        include: [Users],
+      });
+      
+      res.json(orders);
+    } catch (err) {
+      next(err);
+    }
+  });
 
 router.post("/", async (req, res, next) => {
     try {
