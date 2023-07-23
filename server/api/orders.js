@@ -60,3 +60,16 @@ router.get("/:id", async (req, res, next) => {
     }
   });
 
+  router.get('/user/:id/incomplete', async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const incompleteOrders = await Orders.findAll({
+        where: { userId: id, completed: false }
+      });
+  console.log('incomplete', incompleteOrders)
+      res.json(incompleteOrders);
+    } catch (error) {
+      next(error);
+    }
+  });
+

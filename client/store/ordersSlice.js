@@ -11,6 +11,15 @@ export const getOrders = createAsyncThunk('getOrders', async (id) => {
   }
 })
 
+export const getIncompleteOrders = createAsyncThunk('getIncompleteOrders', async (id) => {
+  try {
+    const {data } = await axios.get(`/api/orders/user/${id}/incomplete`);
+  return data
+} catch (err) {
+  console.log(err)
+}
+})
+
 const ordersSlice = createSlice({
   name: 'orders',
   initialState: {
@@ -21,6 +30,8 @@ const ordersSlice = createSlice({
     builder.addCase(getOrders.fulfilled, (state, {payload}) => {
       state.orders = payload
     })
+    builder.addCase(getIncompleteOrders.fulfilled, (state, {payload}) => {
+      state.orders = payload})
   }
 })
 
