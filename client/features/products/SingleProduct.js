@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleProduct, updateProduct } from "../../store/singleProductSlice";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const SingleProduct = () => {
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.singleProduct.product);
-  const [updatedProduct, setUpdatedProduct] = useState({
+  
+ /*  const [updatedProduct, setUpdatedProduct] = useState({
     // Initialize with empty values or default values
     name: "",
     image: "",
@@ -14,14 +14,18 @@ const SingleProduct = () => {
     category: "",
     price: 0,
     stock: 0,
-  });
+  }); */
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(getSingleProduct(id));
+    if (id) {
+      dispatch(getSingleProduct(id));
+    }
   }, [dispatch, id]);
 
-  useEffect(() => {
+  const product = useSelector((state) => state.singleProduct.singleProduct);
+
+/*   useEffect(() => {
     if (product) {
       // Update state with the fetched product details
       setUpdatedProduct({
@@ -47,7 +51,7 @@ const SingleProduct = () => {
     } catch (error) {
       console.error("Error updating product:", error);
     }
-  };
+  }; 
 
   const handleChange = (e) => {
     setUpdatedProduct({
@@ -55,20 +59,19 @@ const SingleProduct = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+*/
   return (
     <>
       {product ? (
         <div>
           <h2>Product Details</h2>
           <p>Name: {product.name}</p>
-          <p>Image: {product.image}</p>
+          <img src={`${product.image}`} className="product-img" />
           <p>Description: {product.description}</p>
-          <p>Category: {product.category}</p>
           <p>Price: {product.price}</p>
-          <p>Stock: {product.stock}</p>
+    
           
-          <h2>Update Product</h2>
+         {/*  <h2>Update Product</h2>
           <form onSubmit={handleUpdateProduct}>
             <div>
               <label htmlFor="name">Name:</label> 
@@ -131,7 +134,7 @@ const SingleProduct = () => {
               />
             </div>
             <button type="submit">Update</button>
-          </form>
+          </form> */}
         </div>
       ) : (
         <p>Loading product...</p>
