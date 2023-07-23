@@ -1,14 +1,13 @@
 'use strict'
 
-const db = require('../server/db/db')
-const { Users, Products, Orders, OrderProducts } = require('../server/db/models')
+const { db, Users, Products, Orders, OrderProducts } = require('../server/db/models')
 const { faker } = require('@faker-js/faker');
 
 async function seed() {
-  try {
+  try {    
+    //reset tables and creates the tables from scratch when seeding
     await db.sync({ force: true })
     console.log('db synced!')
-
 
     // Declare a variable and set it equal to an array. 
     let users = []
@@ -27,7 +26,7 @@ async function seed() {
         password: 'hi',
 
       }
-      console.log(`Password for user ${i + 1} is:`, newUser.password);
+      console.log(`Username|Password for user ${i + 1} is:`, newUser.username, `|` ,newUser.password);
 
       // For each fake user you create, you're going to push them into the user array you declare above
       users.push(newUser)
@@ -149,8 +148,7 @@ async function runSeed() {
   } catch (err) {
     console.error(err)
     process.exitCode = 1
-  }
-  finally {
+  } finally {
     console.log('closing db connection')
     await db.close()
     console.log('db connection closed')
