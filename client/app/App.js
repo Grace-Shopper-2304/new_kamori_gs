@@ -18,6 +18,7 @@ const App = () => {
   const location = useLocation();
   const isProductsPage = location.pathname === '/products';
   const isCart = location.pathname === '/cart';
+  //this location stuff is here because the front end routes arent working yet
 
   return (
     <div>
