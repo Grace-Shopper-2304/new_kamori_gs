@@ -62,7 +62,6 @@ async function seed() {
     // This for loop decides how many datapoints you will create.
     // If you want to change the amount, just change the number in the for loop!
     for (let i = 0; i < 20; i++) {
-      const price = faker.commerce.price({ min: 1, max: 200 })
       // console.log(price)
       // prices.push(price)
       // The keys in this user object are set equal to the fake information
@@ -72,8 +71,8 @@ async function seed() {
         image: faker.image.urlLoremFlickr({ category: 'fashion' }),
         description: faker.commerce.productAdjective(),
         category: faker.commerce.product(),
-        price: price,
-        stock: '2'
+        price: faker.commerce.price({ min: 1, max: 200 }),
+        stock: faker.number.int({ min: 10, max: 50 })
       }
 
       // For each fake user you create, you're going to push them into the user array you declare above
@@ -84,20 +83,33 @@ async function seed() {
     await Promise.all(products.map((product) => Products.create(product)));
 
     // Declare a variable and set it equal to an array. 
-    let orderProducts = []
+/*     let orderProducts = []
     // let orderProductsCounter = 1
 
     // This for loop decides how many datapoints you will create.
     // If you want to change the amount, just change the number in the for loop!
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 20; i++) { */
       // const quantity = faker.number.int({ min: 1, max: 2 })
       // const finalPrice = quantity === 2 ? prices[i] * 2 : prices[i] // Use the stored price for the corresponding order product. Double the price if quantity is 2, otherwise use the regular price
       // The keys in this user object are set equal to the fake information
 
-      let newOrderProducts = {
+      const allProducts = await Products.findAll();
+
+      for (const product of allProducts) {
+        const orderProductData = {
+          orderId: faker.number.int({ min: 1, max: 20 }),
+          productId: faker.number.int({ min: 1, max: 20 }),
+          quantity: faker.number.int({ min: 1, max: 5 }),
+        };
+      
+        await OrderProducts.create(orderProductData);
+      }
+
+/*       let newOrderProducts = {
         orderId: faker.number.int({ min: 1, max: 20 }),
         productId: faker.number.int({ min: 1, max: 20 }),
         quantity: faker.number.int({ min: 1, max: 50 }),
+        price: Products.price,
         //   quantity: quantity,
         //   price: finalPrice,
         //   productId: orderProductsCounter
@@ -110,12 +122,12 @@ async function seed() {
     }
 
     // For each user in the array, you are going to create a new user instance in the database
-    await Promise.all(orderProducts.map((oProduct) => OrderProducts.create(oProduct)));
+    await Promise.all(orderProducts.map((oProduct) => OrderProducts.create(oProduct))); */
 
     console.log(`seeded ${users.length} users. Woof~`)
     console.log(`seeded ${orders.length} orders. Woof~`)
     console.log(`seeded ${products.length} products. Woof~`)
-    console.log(`seeded ${orderProducts.length} order products. Woof~`)
+    console.log(`seeded order products. Woof~`)
 
   } catch (err) {
     console.log(err)

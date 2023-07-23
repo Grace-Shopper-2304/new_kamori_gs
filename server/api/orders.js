@@ -3,15 +3,15 @@ const {Orders, Users, OrderProducts, Products} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
-  try {
-    const orders = await Orders.findAll({
-        include: [Users], 
-      })
-    res.json(orders)
-  } catch (err) {
-    next(err)
-  }
-})
+    try {
+      const orders = await Orders.findAll({
+        include: [Users],
+      });
+      res.json(orders);
+    } catch (err) {
+    console.log(err);
+    }
+  });
 
 router.post("/", async (req, res, next) => {
     try {
@@ -25,7 +25,7 @@ router.post("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
       const order = await Orders.findByPk(req.params.id, {
-        include: [Users]});
+        include: [Users, OrderProducts]});
       res.json(order);
     } catch (error) {
       next(error);
@@ -33,13 +33,28 @@ router.get("/:id", async (req, res, next) => {
   });
 
 // this route shows us all products in a certain order
-  router.get("/:id/products", async (req, res, next) => {
+  router.get("/:id/orderProducts", async (req, res, next) => {
     try {
       const products = await OrderProducts.findAll({
         where: { orderId: req.params.id },
         include: [Products, Orders], 
       });
       res.json(products);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  //gets all orders for a specific user
+  router.get("/user/:id", async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      
+      const orders = await Orders.findAll({
+     where: { userId: id },
+        include: [Users, OrderProducts],
+      });
+      res.json(orders);
     } catch (error) {
       next(error);
     }

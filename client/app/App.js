@@ -4,6 +4,8 @@ import { getAllProducts, selectProducts } from "../store/allProductsSlice";
 import Navbar from '../features/navbar/Navbar';
 import AppRoutes from './AppRoutes';
 import  Products from '../features/products/Products';
+import { useLocation } from 'react-router-dom';
+import { Cart } from '../features/cart/cart';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -13,14 +15,18 @@ const App = () => {
   }, [dispatch]);
 
   const products = useSelector(selectProducts);
+  const location = useLocation();
+  const isProductsPage = location.pathname === '/products';
+  const isCart = location.pathname === '/cart';
+  //this location stuff is here because the front end routes arent working yet
 
   return (
     <div>
       <Navbar />
       <AppRoutes />
+      {isProductsPage && (
       <table>
-      <tbody>
-        
+      <tbody>  
           <div className="all-products-container">
           {products.map(product => {
             return (
@@ -32,12 +38,14 @@ const App = () => {
               </div>
             )
           })
-        
         }
         </div>
       </tbody>
       </table>
-      
+      )}
+      {isCart && (
+        <Cart />
+      )}
     </div>
   );
 };
