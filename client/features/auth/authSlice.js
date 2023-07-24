@@ -35,7 +35,6 @@ export const authenticate = createAsyncThunk(
   'auth/authenticate',
   async ({ username, password, fullName, email, address, method }, thunkAPI) => {
     try {
-      console.log('hello')
       const res = await axios.post(`/auth/${method}`, { username, password, fullName, email, address });
       window.localStorage.setItem(TOKEN, res.data.token);
       thunkAPI.dispatch(me());

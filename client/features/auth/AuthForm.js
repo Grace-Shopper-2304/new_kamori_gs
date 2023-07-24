@@ -17,10 +17,16 @@ const AuthForm = ({ name, displayName }) => {
     const formName = evt.target.name;
     const username = evt.target.username.value;
     const password = evt.target.password.value;
-    const fullName = evt.target.name.value;
-    const email = evt.target.email.value;
-    const address = evt.target.address.value;
-    dispatch(authenticate({ username, password, fullName, email, address, method: formName }));
+
+    if (formName === "login") {
+      dispatch(authenticate({ username, password, method: formName }));
+    } else if (formName === "signup") {
+      const email = evt.target.email.value;
+      const fullName = evt.target.fullName.value;
+      const address = evt.target.address.value;
+
+      dispatch(authenticate({ username, password, fullName, email, address, method: formName }));
+    }
   };
 
   return (
