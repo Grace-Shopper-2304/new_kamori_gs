@@ -18,6 +18,7 @@ export function AllProducts() {
       <div className="all-products-container">
         {products ? (
           products.map((product) => (
+            // consider making a separate card component for this, to simplify your components
             <div className="product-container" key={product.id}>
               <NavLink to={`/products/${product.id}`}>
                 <p id="product-name">{product.name}</p>

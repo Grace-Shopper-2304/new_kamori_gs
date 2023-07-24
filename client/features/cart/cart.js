@@ -56,17 +56,18 @@ if (!userId || orders.length === 0 || !orderProducts) {
         <div key={order.id}>
           {orderProducts.length > 0 ? (
           orderProducts.map((orderProduct) => (
+            // consider making a separate component that displays this information that you can use here
             <div key={orderProduct.id}>
-               {orderProduct.product ? ( 
+               {orderProduct.product ? (
                 <>
               <p>Product: {orderProduct.product.name}</p>
               <p>Price: {orderProduct.product.price}({orderProduct.quantity}) =  ${orderProduct.product.price * orderProduct.quantity}</p>
               <p>Quantity: {orderProduct.quantity} <button onClick={() => handleIncrement(orderProduct.id)}>+</button>
               <button onClick={() => handleDecrement(orderProduct.id)}>-</button></p>
-                 <p><button onClick={() => handleRemove(orderProduct.id)}>Remove Item</button></p> 
+                 <p><button onClick={() => handleRemove(orderProduct.id)}>Remove Item</button></p>
               </>
                ) : (
-                <p>Product data not available...</p> 
+                <p>Product data not available...</p>
                )}
             </div>
           ))
@@ -81,11 +82,11 @@ if (!userId || orders.length === 0 || !orderProducts) {
     <div>
       Not logged in stuff here
     </div>
-  )}  
+  )}
   { orderProducts.length > 0 ? (
     <>
    {/*  <h2>Your total is ${orderProducts.reduce((total, orderProduct) => total + orderProduct.product.price * orderProduct.quantity, 0)}</h2> */}
-  <button type="button">Checkout</button> 
+  <button type="button">Checkout</button>
   </>) : ( null ) }
 
                {/*
@@ -99,9 +100,9 @@ if (!userId || orders.length === 0 || !orderProducts) {
             //put a table with all the user products in here
             //each product will also have the option to change quantity
             //also the user can remove the product all together from the cart
-   
-           
-          
+
+
+
           isLoggedIn ? (loggedInProducts):(localUserProducts).map((product) => {
             return (
               //the link will allow users to click on a product to view a single product
@@ -121,9 +122,9 @@ if (!userId || orders.length === 0 || !orderProducts) {
             )
           })
           */}
-           
 
-         
+
+
 
         </div>
   )
@@ -132,7 +133,7 @@ if (!userId || orders.length === 0 || !orderProducts) {
         //checkout button should take you to a checkout component on a different page
       }
 
-  
+
     }
 
 /* const mapState = state => {

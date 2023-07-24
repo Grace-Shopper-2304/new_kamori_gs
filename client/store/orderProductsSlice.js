@@ -22,7 +22,7 @@ export const incrementProduct = createAsyncThunk(
       }
     }
   );
-  
+
   export const decrementProduct = createAsyncThunk(
     "decrementCartProduct",
     async (id) => {
@@ -40,7 +40,7 @@ export const incrementProduct = createAsyncThunk(
     return data;
   });
 
-  export const addToCart = createAsyncThunk("addToCart", 
+  export const addToCart = createAsyncThunk("addToCart",
   async ({ userId, productId, price, orderId, quantity }) => {
     try {
       const { data } = await axios.post(`/api/orderProducts`, {
@@ -50,7 +50,7 @@ export const incrementProduct = createAsyncThunk(
         orderId,
         quantity
       });
-      return data; 
+      return data;
     } catch (err) {
       console.log(err);
       throw err;
@@ -80,6 +80,7 @@ const orderProductsSlice = createSlice({
         }
       })
       .addCase(addToCart.fulfilled, (state, { payload }) => {
+        // I notice you have some console.logs and sections of commented-out code here... I recommend doing one PR after everything else is merged to remove these, in case prospective employers decide to check out the code or you want to use it for future reference.
         console.log('payload!!', payload)
         state.orderProducts.push(payload);
       })

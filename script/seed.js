@@ -1,15 +1,17 @@
 'use strict'
 
+// great comments in here explaining how this is working! If you think you might want to work on this project again, one thing you might find helpful is to write up a short summary of how to work with the seed data and put it in the project README.
+
 const { db, Users, Products, Orders, OrderProducts } = require('../server/db/models')
 const { faker } = require('@faker-js/faker');
 
 async function seed() {
-  try {    
+  try {
     //reset tables and creates the tables from scratch when seeding
     await db.sync({ force: true })
     console.log('db synced!')
 
-    // Declare a variable and set it equal to an array. 
+    // Declare a variable and set it equal to an array.
     let users = []
 
     // This for loop decides how many datapoints you will create.
@@ -36,7 +38,7 @@ async function seed() {
     await Promise.all(users.map((user) => Users.create(user)));
 
 
-    // Declare a variable and set it equal to an array. 
+    // Declare a variable and set it equal to an array.
     let orders = []
 
     // This for loop decides how many datapoints you will create.
@@ -55,7 +57,7 @@ async function seed() {
     // For each user in the array, you are going to create a new user instance in the database
     await Promise.all(orders.map((order) => Orders.create(order)))
 
-    // Declare a variable and set it equal to an array. 
+    // Declare a variable and set it equal to an array.
     let products = []
     // let prices = [] // Array to store the randomly generated prices
 
@@ -82,7 +84,7 @@ async function seed() {
     // For each user in the array, you are going to create a new user instance in the database
     await Promise.all(products.map((product) => Products.create(product)));
 
-    // Declare a variable and set it equal to an array. 
+    // Declare a variable and set it equal to an array.
 /*     let orderProducts = []
     // let orderProductsCounter = 1
 
@@ -101,7 +103,7 @@ async function seed() {
           productId: faker.number.int({ min: 1, max: 20 }),
           quantity: faker.number.int({ min: 1, max: 5 }),
         };
-      
+
         await OrderProducts.create(orderProductData);
       }
 

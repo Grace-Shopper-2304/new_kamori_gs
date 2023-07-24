@@ -14,7 +14,7 @@ router.post("/", async (req, res, next) => {
 });
 
 router.put('/:id/increase', async (req, res, next) => {
-    try {  
+    try {
       const product = await OrderProducts.findByPk(req.params.id);
       product.quantity += 1;
       await product.save();
@@ -23,10 +23,12 @@ router.put('/:id/increase', async (req, res, next) => {
       next(error);
     }
   });
-  
+
   router.put('/:id/decrease', async (req, res, next) => {
     try {
       const product = await OrderProducts.findByPk(req.params.id);
+      // I think the way this is written you'd be able to have 0 or negative quantities. Maybe before decrementing the quantity, you could check to see if the quantity is 1 -- and if it is, then delete the product instead of decrementing the quantity.
+      // I guess you might also be deciding, on the front end, whether to send a PUT to decrement or a DELETE to remove. That's fine too!
       product.quantity -= 1;
       await product.save();
       res.send(product);
