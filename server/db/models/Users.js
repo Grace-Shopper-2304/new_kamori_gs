@@ -18,6 +18,7 @@ const Users = db.define('users', {
   username: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: true
     }
@@ -44,6 +45,10 @@ const Users = db.define('users', {
   },
     password: {
       type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      },
       // Remove the inner function and return the data value directly
       get() {
         return this.getDataValue('password');
