@@ -2,15 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleProduct, updateProduct } from "../../store/singleProductSlice";
 import { useParams } from "react-router-dom";
+import { addToCart } from "../../store/orderProductsSlice";
+import { getOrders } from "../../store/ordersSlice";
+import { getOrderProducts } from "../../store/orderProductsSlice";
 
 const SingleProduct = () => {
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.me.id);
+  const orders = useSelector((state) => state.orders.orders);
+
   
  /*  const [updatedProduct, setUpdatedProduct] = useState({
     // Initialize with empty values or default values
     name: "",
     image: "",
-    description: "",
+    description: "", 
     category: "",
     price: 0,
     stock: 0,
@@ -20,10 +26,15 @@ const SingleProduct = () => {
   useEffect(() => {
     if (id) {
       dispatch(getSingleProduct(id));
+      dispatch(getOrders(userId));
     }
-  }, [dispatch, id]);
+  }, [dispatch, id, userId]);
+  
+
 
   const product = useSelector((state) => state.singleProduct.singleProduct);
+
+
 
 /*   useEffect(() => {
     if (product) {
@@ -60,6 +71,21 @@ const SingleProduct = () => {
     });
   };
 */
+
+const handleAddToCart = (orderProductId, productPrice) => {
+  if (orders && orders.length > 0) {
+    const orderId = orders[0].id;
+  dispatch(addToCart({ userId, productId: orderProductId, price: productPrice, orderId: orderId, quantity: 1}))
+  .then(() => {
+    dispatch(getOrderProducts(orderId));
+  })
+} else {
+  console.log("Orders array empty/undefined");
+}
+};
+
+
+
   return (
     <>
       {product ? (
@@ -70,7 +96,7 @@ const SingleProduct = () => {
           <p>Description: {product.description}</p>
           <p>Price: ${product.price}</p>
     
-          <button>Add to Cart</button>
+          <p><button onClick={() => handleAddToCart(product.id, product.price)}>Add to Cart</button></p> 
          {/*  <h2>Update Product</h2>
           <form onSubmit={handleUpdateProduct}>
             <div>

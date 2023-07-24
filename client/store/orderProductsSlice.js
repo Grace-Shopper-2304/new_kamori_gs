@@ -40,6 +40,23 @@ export const incrementProduct = createAsyncThunk(
     return data;
   });
 
+  export const addToCart = createAsyncThunk("addToCart", 
+  async ({ userId, productId, price, orderId, quantity }) => {
+    try {
+      const { data } = await axios.post(`/api/orderProducts`, {
+        userId,
+        productId,
+        price,
+        orderId,
+        quantity
+      });
+      return data; 
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  });
+
 const orderProductsSlice = createSlice({
   name: 'orderProducts',
   initialState: {
@@ -61,6 +78,10 @@ const orderProductsSlice = createSlice({
         if (updatedOrderProduct) {
           updatedOrderProduct.quantity = payload.quantity;
         }
+      })
+      .addCase(addToCart.fulfilled, (state, { payload }) => {
+        console.log('payload!!', payload)
+        state.orderProducts.push(payload);
       })
       .addCase(removeFromCart.fulfilled, (state, { payload }) => {
         state.orderProducts = state.orderProducts.filter((product) => product.id !== payload.id);

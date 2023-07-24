@@ -68,12 +68,12 @@ if (!userId || orders.length === 0 || !orderProducts) {
                ) : (
                 <p>Product data not available...</p> 
                )}
-                
             </div>
           ))
           ) : (
             <p>Your cart is empty!</p>
           )}
+           <h2>Your total is ${orderProducts.reduce((total, orderProduct) => total + orderProduct.product.price * orderProduct.quantity, 0)}</h2>
         </div>
       ))}
     </>
@@ -84,7 +84,7 @@ if (!userId || orders.length === 0 || !orderProducts) {
   )}  
   { orderProducts.length > 0 ? (
     <>
-    <h2>Your total is ${orderProducts.reduce((total, orderProduct) => total + orderProduct.product.price * orderProduct.quantity, 0)}</h2>
+   {/*  <h2>Your total is ${orderProducts.reduce((total, orderProduct) => total + orderProduct.product.price * orderProduct.quantity, 0)}</h2> */}
   <button type="button">Checkout</button> 
   </>) : ( null ) }
 
