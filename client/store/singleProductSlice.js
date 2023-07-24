@@ -33,8 +33,8 @@ const singleProductSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getSingleProduct.fulfilled, (state, action) => {
-        return action.payload;
+      .addCase(getSingleProduct.fulfilled, (state, { payload }) => {
+        state.singleProduct = payload;
       })
       .addCase(getSingleProduct.rejected, (state) => {
         // Clear the state on error
