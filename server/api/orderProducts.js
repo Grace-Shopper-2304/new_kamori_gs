@@ -44,3 +44,16 @@ router.put('/:id/increase', async (req, res, next) => {
       next(error);
     }
   });
+
+  //deletes all entries in orderProducts when user checks out
+  router.delete('/destroy', async (req, res, next) => {
+    try {
+      const products = await OrderProducts.findAll();
+      for (let i = 0; i < products.length; i++) {
+        await products[i].destroy();
+      }
+      res.send(products);
+    } catch (error) {
+      next(error);
+    }
+  })

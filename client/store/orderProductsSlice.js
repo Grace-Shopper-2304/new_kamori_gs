@@ -57,6 +57,16 @@ export const incrementProduct = createAsyncThunk(
     }
   });
 
+  export const deleteAllCart = createAsyncThunk("deleteAllCart", async () => {
+    const {data} = await axios.delete('/api/orderProducts/destroy');
+    return data;
+  });
+  
+  export const updateProductQuantities = createAsyncThunk("updateProductQuantities", async (id) => {
+    const {data} = await axios.put(`/api/products/${id}/update`);
+    return data;
+  });
+
 const orderProductsSlice = createSlice({
   name: 'orderProducts',
   initialState: {
@@ -85,6 +95,9 @@ const orderProductsSlice = createSlice({
       })
       .addCase(removeFromCart.fulfilled, (state, { payload }) => {
         state.orderProducts = state.orderProducts.filter((product) => product.id !== payload.id);
+      })
+      .addCase(deleteAllCart.fulfilled, (state, {payload}) => {
+        state.orderProducts = [];
       })
   }
 });
