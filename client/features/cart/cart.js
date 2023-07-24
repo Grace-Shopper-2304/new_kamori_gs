@@ -1,70 +1,57 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { getIncompleteOrders } from "../../store/ordersSlice";
-import { me } from "../auth/authSlice";
-import { getOrderProducts } from "../../store/orderProductsSlice";
-import {
-  incrementProduct,
-  decrementProduct,
-  removeFromCart,
-} from "../../store/orderProductsSlice";
-//import async thunk to get products for logged in user
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { getIncompleteOrders } from '../../store/ordersSlice';
+import { me } from '../auth/authSlice';
+import { getOrderProducts } from '../../store/orderProductsSlice';
+import { incrementProduct, decrementProduct, removeFromCart } from '../../store/orderProductsSlice';
 
 export const Cart = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.me.id);
   const username = useSelector((state) => state.auth.me.username);
   const orders = useSelector((state) => state.orders.orders);
-  const orderProducts = useSelector(
-    (state) => state.orderProducts.orderProducts
-  );
+  const orderProducts = useSelector((state) => state.orderProducts.orderProducts || []);
 
-  // Stored Products
-  const storedProducts = JSON.parse(localStorage.getItem("products"));
-
-  // iniialize useState with storedProducts
+  const storedProducts = JSON.parse(localStorage.getItem('products'));
   const [products, setProducts] = useState(storedProducts);
 
-  // Sets up products to be displayed in a local storage cart. Can be pulled using the 'products' key
   useEffect(() => {
-    localStorage.setItem("products", JSON.stringify(products));
+    localStorage.setItem('products', JSON.stringify(products));
   }, [products]);
-};
 
-useEffect(() => {
-  dispatch(me());
-}, [dispatch]);
+  useEffect(() => {
+    dispatch(me());
+  }, [dispatch]);
 
-useEffect(() => {
-  if (userId) {
-    dispatch(getIncompleteOrders(userId));
+  useEffect(() => {
+    if (userId) {
+      dispatch(getIncompleteOrders(userId));
+    }
+  }, [dispatch, userId]);
+
+  useEffect(() => {
+    if (orders.length > 0) {
+      const currentCart = orders[0];
+      dispatch(getOrderProducts(currentCart.id));
+    }
+  }, [dispatch, orders]);
+
+  const handleIncrement = (orderProductId) => {
+    dispatch(incrementProduct(orderProductId));
+  };
+
+  const handleDecrement = (orderProductId) => {
+    dispatch(decrementProduct(orderProductId));
+  };
+
+  const handleRemove = (orderProductId) => {
+    dispatch(removeFromCart(orderProductId));
+  };
+
+  if (!orderProducts || orders.length === 0) {
+    return null;
   }
-}, [dispatch, userId]);
-
-useEffect(() => {
-  if (orders.length > 0) {
-    const currentCart = orders[0];
-    dispatch(getOrderProducts(currentCart.id));
-  }
-}, [dispatch, orders]);
-
-const handleIncrement = (orderProductId) => {
-  dispatch(incrementProduct(orderProductId));
-};
-
-const handleDecrement = (orderProductId) => {
-  dispatch(decrementProduct(orderProductId));
-};
-
-const handleRemove = (orderProductId) => {
-  dispatch(removeFromCart(orderProductId));
-};
-
-// Return for missing orders / missing products
-if (orders.length === 0 || !orderProducts) {
-  return null;
-}
 
 // Return form for users that are NOT signed in
 if (!userId) {
@@ -175,3 +162,4 @@ return (
     ) : null}
   </div>
 );
+    }
