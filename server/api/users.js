@@ -10,3 +10,12 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.post("/", async (req, res, next) => {
+  try {
+    newUser = await Users.create(req.body);
+    res.send(newUser);
+  } catch (error) {
+    next(error);
+  }
+});
