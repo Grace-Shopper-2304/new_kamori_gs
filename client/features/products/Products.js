@@ -6,8 +6,8 @@ const Products = ({ product, onDeleteProducts }) => {
     <section>
       <Link to={`/products/${product.id}`}>
         <img src={product.image} alt={product.name} />
-        <div>{product.name}</div>
-        <div> ${product.price}</div>
+        <div className="product-name">{product.name}</div>
+        <div className="product-price">${product.price}</div>
       </Link>
     </section>
   );
