@@ -76,7 +76,7 @@ const AuthForm = ({ name, displayName }) => {
             <label htmlFor="password">
               <small>Create a Secure Password</small>
             </label>
-            <input name="password" type="text" />
+            <input name="password" type="password" />
           </div>
           <div>
             <label htmlFor="address">
