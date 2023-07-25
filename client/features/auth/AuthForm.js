@@ -20,6 +20,7 @@ const AuthForm = ({ name, displayName }) => {
 
     if (formName === "login") {
       dispatch(authenticate({ username, password, method: formName }));
+
     } else if (formName === "signup") {
       const email = evt.target.email.value;
       const fullName = evt.target.fullName.value;
@@ -27,7 +28,7 @@ const AuthForm = ({ name, displayName }) => {
 
       dispatch(authenticate({ username, password, fullName, email, address, method: formName }));
     }
-  };
+  }
 
   return (
     <div>
