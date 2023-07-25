@@ -40,22 +40,24 @@ export const incrementProduct = createAsyncThunk(
     return data;
   });
 
-  export const addToCart = createAsyncThunk("addToCart", 
-  async ({ userId, productId, price, orderId, quantity }) => {
-    try {
-      const { data } = await axios.post(`/api/orderProducts`, {
-        userId,
-        productId,
-        price,
-        orderId,
-        quantity
-      });
-      return data; 
-    } catch (err) {
-      console.log(err);
-      throw err;
+  export const addToCart = createAsyncThunk(
+    'addToCart',
+    async ({ userId, productId, price, orderId, quantity }) => {
+      try {
+        const { data } = await axios.post(`/api/orderProducts`, {
+          userId,
+          productId,
+          price,
+          orderId,
+          quantity,
+        });
+        return data;
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
     }
-  });
+  );
 
   export const deleteAllCart = createAsyncThunk("deleteAllCart", async () => {
     const {data} = await axios.delete('/api/orderProducts/destroy');
@@ -90,8 +92,28 @@ const orderProductsSlice = createSlice({
         }
       })
       .addCase(addToCart.fulfilled, (state, { payload }) => {
-        console.log('payload!!', payload)
-        state.orderProducts.push(payload);
+        if (payload.userId) {
+          // If the payload contains a valid userId, update the state for authorized users
+          state.orderProducts.push(payload);
+        } else {
+          // For unauthorized users, handle cart items in local storage
+          const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+          const existingProduct = storedProducts.find((p) => p.id === payload.productId);
+  
+          if (existingProduct) {
+            // If the product is already in the cart, update the quantity
+            existingProduct.quantity++;
+          } else {
+            // Otherwise, add the product to the cart
+            storedProducts.push({
+              id: payload.productId,
+              price: payload.price,
+              quantity: 1,
+            });
+          }
+          // Update local storage
+          localStorage.setItem('products', JSON.stringify(storedProducts));
+        }
       })
       .addCase(removeFromCart.fulfilled, (state, { payload }) => {
         state.orderProducts = state.orderProducts.filter((product) => product.id !== payload.id);

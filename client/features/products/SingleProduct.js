@@ -26,10 +26,10 @@ const SingleProduct = () => {
   useEffect(() => {
     if (id) {
       dispatch(getSingleProduct(id));
-      dispatch(getOrders(userId));
     }
-  }, [dispatch, id, userId]);
-  
+  }, [dispatch, id]);
+
+
 
 
   const product = useSelector((state) => state.singleProduct.singleProduct);
@@ -72,19 +72,26 @@ const SingleProduct = () => {
   };
 */
 
-const handleAddToCart = (orderProductId, productPrice) => {
-  if (orders && orders.length > 0) {
+const handleAddToCart = (productId, productPrice) => {
+  if (userId && orders.length > 0) {
     const orderId = orders[0].id;
-  dispatch(addToCart({ userId, productId: orderProductId, price: productPrice, orderId: orderId, quantity: 1}))
-  .then(() => {
-    dispatch(getOrderProducts(orderId));
-  })
-} else {
-  console.log("Orders array empty/undefined");
-}
+    dispatch(addToCart({ userId, productId, price: productPrice, orderId, quantity: 1 }));
+  } else {
+    // For unregistered users, use local storage to add products
+    const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+    const existingProduct = storedProducts.find((p) => p.id === productId);
+
+    if (existingProduct) {
+      // If the product is already in the cart, update the quantity
+      existingProduct.quantity++;
+    } else {
+      // Otherwise, add the product to the cart
+      storedProducts.push({ id: productId, name: product.name, price: productPrice, quantity: 1 });
+    }
+
+    localStorage.setItem('products', JSON.stringify(storedProducts));
+  }
 };
-
-
 
   return (
     <div className="product-details">
