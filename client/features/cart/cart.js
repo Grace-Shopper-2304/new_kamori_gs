@@ -31,7 +31,7 @@ export const Cart = () => {
   }, [dispatch, userId]);
 
   useEffect(() => {
-    if (orders.length > 0) {
+    if (orders?.length > 0) {
       const currentCart = orders[0];
       dispatch(getOrderProducts(currentCart.id));
     }
@@ -49,7 +49,7 @@ export const Cart = () => {
     dispatch(removeFromCart(orderProductId));
   };
 
-  if (!orderProducts || orders.length === 0) {
+  if (!userId || !orderProducts || orders?.length === 0) {
     return null;
   }
 
