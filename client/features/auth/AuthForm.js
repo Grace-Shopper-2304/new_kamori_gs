@@ -87,7 +87,7 @@ const AuthForm = ({ name, displayName }) => {
           <div>
             <button type="submit">{displayName}</button>
           </div>
-          {error && <div>{error}</div>}
+          {error ? <div>Error with signup. Please double check your information.</div> : null }
         </form>
       )}
     </div>
