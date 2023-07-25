@@ -56,15 +56,15 @@ export const Cart = () => {
 // Return form for users that are NOT signed in
 if (!userId) {
   return (
-    <div>
+    <div className="cart-container">
       <h1>Your Cart</h1>
       {storedProducts && storedProducts.length > 0 ? (
         <>
           {storedProducts.map((storedProduct) => (
-            <div key={storedProduct.id}>
-              <p>Product: {storedProduct.name}</p>
-              <p>Price: {storedProduct.price}</p>
-              <p>
+            <div className="product-item" key={storedProduct.id}>
+              <p className="product-name">Product: {storedProduct.name}</p>
+              <p className="product-price">Price: {storedProduct.price}</p>
+              <div className="product-quantity">
                 Quantity: {storedProduct.quantity}
                 <button onClick={() => handleIncrement(orderProduct.id)}>
                   +
@@ -72,7 +72,7 @@ if (!userId) {
                 <button onClick={() => handleDecrement(orderProduct.id)}>
                   -
                 </button>
-              </p>
+              </div>
               <p>
                 <button onClick={() => handleRemove(orderProduct.id)}>
                   Remove Item
@@ -82,7 +82,7 @@ if (!userId) {
           ))}
           </> )
  : (
-            <p>Your cart is empty!</p>
+  <p className="empty-cart">Your cart is empty!</p>
           )}
          { orderProducts.length > 0 ?
            <h2>Your total is ${orderProducts.reduce((total, orderProduct) => total + orderProduct.product.price * orderProduct.quantity, 0)}</h2>
@@ -94,24 +94,24 @@ if (!userId) {
 
 // Return form for Users that are logged in
 return (
-  <div>
+  <div className="cart-container">
     <h1>Your Cart</h1>
     {userId && orders.length > 0 ? (
       <>
         {orders.map((order) => (
-          <div key={order.id}>
+          <div className="product-item" key={order.id}>
             {orderProducts.length > 0 ? (
               orderProducts.map((orderProduct) => (
                 <div key={orderProduct.id}>
                   {orderProduct.product ? (
                     <>
-                      <p>Product: {orderProduct.product.name}</p>
-                      <p>
+                      <p className="product-name">Product: {orderProduct.product.name}</p>
+                      <p className="product-price">
                         Price: {orderProduct.product.price}(
                         {orderProduct.quantity}) = $
                         {orderProduct.product.price * orderProduct.quantity}
                       </p>
-                      <p>
+                      <div className="product-quantity">
                         Quantity: {orderProduct.quantity}{" "}
                         <button
                           onClick={() => handleIncrement(orderProduct.id)}
@@ -123,7 +123,7 @@ return (
                         >
                           -
                         </button>
-                      </p>
+                      </div>
                       <p>
                         <button onClick={() => handleRemove(orderProduct.id)}>
                           Remove Item
@@ -136,7 +136,7 @@ return (
                 </div>
               ))
             ) : (
-              <p>Your cart is empty!</p>
+              <p className="empty-cart">Your cart is empty!</p>
             )}
             <h2>
               Your total is $
@@ -154,7 +154,7 @@ return (
     )}
     {orderProducts.length > 0 ? (
       <>
-        <button type="button">Checkout</button>
+        <button className="checkout-button" type="button">Checkout</button>
       </>
     ) : null}
   </div>
