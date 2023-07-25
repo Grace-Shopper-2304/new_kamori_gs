@@ -8,6 +8,7 @@ import {AllProducts} from "../features/products/AllProducts"
 import SingleProduct from '../features/products/SingleProduct';
 import {Cart} from '../features/cart/cart';
 import Checkout from '../features/checkout/checkout';
+import Landing from '../features/home/Landing';
 
 /**
  * COMPONENT
@@ -26,7 +27,7 @@ const AppRoutes = () => {
       {isLoggedIn ? (
         <Routes>
           <Route path="/*" element={<Home />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<Landing />} />
           <Route path="/products" element={<AllProducts />} />
           <Route path="/products/:id" element={<SingleProduct />} />
           <Route path="/cart" element={<Cart />} />
@@ -56,3 +57,4 @@ const AppRoutes = () => {
 };
 
 export default AppRoutes;
+
