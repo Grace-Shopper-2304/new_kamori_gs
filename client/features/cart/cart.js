@@ -79,18 +79,19 @@ if (!userId) {
                 </button>
               </p>
             </div>
-          ))}
-        </>
-      ) : (
-        <p>Your cart is empty!</p>
-      )}
-      <form>
-        <input type="text" placeholder="Name" />
-        <input type="email" placeholder="Email" />
-        <input type="text" placeholder="Address" />
-        <button type="submit">Submit</button>
-        {/* Submit button for form may not work , pls revisit */}
-      </form>
+          ))
+          ) : (
+            <p>Your cart is empty!</p>
+          )}
+         { orderProducts.length > 0 ?
+           <h2>Your total is ${orderProducts.reduce((total, orderProduct) => total + orderProduct.product.price * orderProduct.quantity, 0)}</h2>
+          : null }
+        </div>
+      ))}
+    </>
+  ) : (
+    <div>
+      Not logged in stuff here
     </div>
   );
 }

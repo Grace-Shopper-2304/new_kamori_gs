@@ -13,6 +13,16 @@ OrderProducts.belongsTo(Products, { foreignKey: 'productId' });
 Products.hasMany(OrderProducts)
 OrderProducts.belongsTo(Orders, { foreignKey: 'orderId' });
 
+Users.addHook('afterCreate', async (user) => {
+  try {
+    await Orders.create({
+      userId: user.id,
+    });
+  } catch (err) {
+    console.error('Error creating order for user..', err);
+  }
+});
+
 module.exports = {
   db,
   Users,
