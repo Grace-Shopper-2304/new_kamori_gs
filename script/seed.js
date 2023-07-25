@@ -42,8 +42,7 @@ async function seed() {
     // This for loop decides how many datapoints you will create.
     // If you want to change the amount, just change the number in the for loop!
     for (let i = 0; i < 50; i++) {
-      // console.log(price)
-      // prices.push(price)
+      
       // The keys in this user object are set equal to the fake information
 
       let newProducts = {
@@ -63,15 +62,8 @@ async function seed() {
     await Promise.all(products.map((product) => Products.create(product)));
 
     // Declare a variable and set it equal to an array. 
-/*     let orderProducts = []
-    // let orderProductsCounter = 1
 
-    // This for loop decides how many datapoints you will create.
-    // If you want to change the amount, just change the number in the for loop!
-    for (let i = 0; i < 20; i++) { */
-      // const quantity = faker.number.int({ min: 1, max: 2 })
-      // const finalPrice = quantity === 2 ? prices[i] * 2 : prices[i] // Use the stored price for the corresponding order product. Double the price if quantity is 2, otherwise use the regular price
-      // The keys in this user object are set equal to the fake information
+    // The keys in this user object are set equal to the fake information
 
       const allProducts = await Products.findAll();
 
@@ -85,24 +77,6 @@ async function seed() {
         await OrderProducts.create(orderProductData);
       }
 
-/*       let newOrderProducts = {
-        orderId: faker.number.int({ min: 1, max: 20 }),
-        productId: faker.number.int({ min: 1, max: 20 }),
-        quantity: faker.number.int({ min: 1, max: 50 }),
-        price: Products.price,
-        //   quantity: quantity,
-        //   price: finalPrice,
-        //   productId: orderProductsCounter
-      }
-
-      // For each fake user you create, you're going to push them into the user array you declare above
-      orderProducts.push(newOrderProducts)
-      // orderProductsCounter++; // Increment the orderProducts counter variable
-
-    }
-
-    // For each user in the array, you are going to create a new user instance in the database
-    await Promise.all(orderProducts.map((oProduct) => OrderProducts.create(oProduct))); */
 
   } catch (err) {
     console.log(err)

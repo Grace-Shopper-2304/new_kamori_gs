@@ -59,15 +59,12 @@ export const incrementProduct = createAsyncThunk(
     }
   );
 
-  export const deleteAllCart = createAsyncThunk("deleteAllCart", async () => {
-    const {data} = await axios.delete('/api/orderProducts/destroy');
+  export const deleteAllCart = createAsyncThunk("deleteAllCart", async (id) => {
+    const {data} = await axios.delete(`/api/orderProducts/${id}/destroy`);
     return data;
   });
   
-  export const updateProductQuantities = createAsyncThunk("updateProductQuantities", async (id) => {
-    const {data} = await axios.put(`/api/products/${id}/update`);
-    return data;
-  });
+  
 
 const orderProductsSlice = createSlice({
   name: 'orderProducts',

@@ -46,9 +46,12 @@ router.put('/:id/increase', async (req, res, next) => {
   });
 
   //deletes all entries in orderProducts when user checks out
-  router.delete('/destroy', async (req, res, next) => {
+  router.delete('/:id/destroy', async (req, res, next) => {
     try {
-      const products = await OrderProducts.findAll();
+      const products = await OrderProducts.findAll({
+        where: { orderId: req.params.id },
+        include: [Products, Orders], 
+      });
       for (let i = 0; i < products.length; i++) {
         await products[i].destroy();
       }

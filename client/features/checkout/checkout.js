@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect, useDispatch, useSelector} from 'react-redux'
 import { getIncompleteOrders } from '../../store/ordersSlice'
 import { me } from '../auth/authSlice'
 import { getOrderProducts } from '../../store/orderProductsSlice'
-import { incrementProduct, decrementProduct, removeFromCart, deleteAllCart, updateProductQuantities } from '../../store/orderProductsSlice'
+import { incrementProduct, decrementProduct, removeFromCart, deleteAllCart } from '../../store/orderProductsSlice'
 import { Link } from 'react-router-dom';
 
 const Checkout = () => {
@@ -14,7 +14,7 @@ const Checkout = () => {
   const orderProducts = useSelector((state) => state.orderProducts.orderProducts);
 
 useEffect(() => {
-  dispatch(me());
+   dispatch(me());
 }, [dispatch]);
 
 useEffect(() => {
@@ -43,8 +43,7 @@ const handleRemove = (orderProductId) => {
 };
 
 const handleCompleteCheckout = () => {
-  dispatch(updateProductQuantities(orders[0].id));
-  dispatch(deleteAllCart());
+  dispatch(deleteAllCart(orders[0].id));
   
 }
 
