@@ -15,21 +15,6 @@ form {
   flex-direction: column;
 }
 
-.all-products-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.product-container {
-  flex: 0 20%;
-  height: 100px;
-  margin-bottom: 200px;
-  padding: 10px;
-  justify-content: space-around;
-  margin-top: 2%;
-}
-
 .product-details {
   display: flex;
   flex-direction: column;
@@ -46,7 +31,7 @@ form {
   padding: 10px 20px;
   font-size: 16px;
   background-color: #007bfff3;
-  color: #fff;
+  color: #f2f1f1;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -69,7 +54,7 @@ form {
 }
 
 .product-item {
-  border: 1px solid #ccc;
+  border: 1px solid #cecece;
   padding: 10px;
   margin: 10px 0;
   margin-bottom: 100px
@@ -97,7 +82,7 @@ form {
   margin: 1px;
   font-size: 14px;
   background-color: #007bfff3;
-  color: #fff;
+  color: #fcfcfc;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -132,6 +117,70 @@ form {
 
 .checkout-button:hover {
   background-color: #1f9231;
+}
+
+.welcome {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.all-products-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.product-container {
+  border: 1px solid #cfcfcf;
+  border-radius: 5px;
+  padding: 10px;
+  width: 250px;
+  margin: 10px;
+  text-align: center;
+}
+
+.product-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.product-container a {
+  text-decoration: none;
+  color: #262626;
+}
+
+.product-container a:hover {
+  color: #007bfff3;
+}
+
+.product-name {
+  font-weight: bold;
+}
+
+.product-price {
+  margin-top: 5px;
+  font-size: 18px;
+}
+
+.landing-container {
+  text-align: center;
+  margin: 20px;
+}
+
+.landing-heading {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.landing-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 20px;
 }
 
 label {
