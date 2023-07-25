@@ -87,8 +87,9 @@ const handleAddToCart = (orderProductId, productPrice) => {
 
 
   return (
-    <>
+    <div className="product-details">
       {product ? (
+         <>
         <div>
           <h2>Product Details</h2>
           <p>Name: {product.name}</p>
@@ -96,7 +97,7 @@ const handleAddToCart = (orderProductId, productPrice) => {
           <p>Description: {product.description}</p>
           <p>Price: ${product.price}</p>
     
-          <p><button onClick={() => handleAddToCart(product.id, product.price)}>Add to Cart</button></p> 
+          <p><button className="add-to-cart-button" onClick={() => handleAddToCart(product.id, product.price)}>Add to Cart</button></p> 
          {/*  <h2>Update Product</h2>
           <form onSubmit={handleUpdateProduct}>
             <div>
@@ -162,10 +163,11 @@ const handleAddToCart = (orderProductId, productPrice) => {
             <button type="submit">Update</button>
           </form> */}
         </div>
+        </>
       ) : (
-        <p>Loading product...</p>
+        <p className="loading-text">Loading product...</p>
       )}
-    </>
+ </div>
   );
 };
 
