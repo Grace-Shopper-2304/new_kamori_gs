@@ -79,21 +79,17 @@ if (!userId) {
                 </button>
               </p>
             </div>
-          ))
-          ) : (
+          ))}
+          </> )
+ : (
             <p>Your cart is empty!</p>
           )}
          { orderProducts.length > 0 ?
            <h2>Your total is ${orderProducts.reduce((total, orderProduct) => total + orderProduct.product.price * orderProduct.quantity, 0)}</h2>
           : null }
         </div>
-      ))}
-    </>
-  ) : (
-    <div>
-      Not logged in stuff here
-    </div>
-  );
+      )}
+  ;
 }
 
 // Return form for Users that are logged in
