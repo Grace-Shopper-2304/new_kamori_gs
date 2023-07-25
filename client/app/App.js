@@ -16,17 +16,16 @@ const App = () => {
   }, [dispatch]);
 
   const products = useSelector(selectProducts);
- 
-  //this location stuff is here because the front end routes arent working yet
+
 
   return (
     <div>
       <Navbar />
       <AppRoutes />
-      
     </div>
   );
 };
 
 export default App;
+
 

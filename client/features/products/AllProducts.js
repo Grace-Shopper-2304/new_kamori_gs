@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+/* import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProducts, selectProducts } from "../../../client/store/allProductsSlice"; // Make sure to import the selectProducts function
 import { NavLink } from "react-router-dom";
@@ -39,3 +39,4 @@ export function AllProducts() {
 }
 
 export default AllProducts;
+ */
