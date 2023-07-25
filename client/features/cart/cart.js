@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getIncompleteOrders } from '../../store/ordersSlice';
 import { me } from '../auth/authSlice';
 import { getOrderProducts } from '../../store/orderProductsSlice';
@@ -13,12 +13,14 @@ export const Cart = () => {
   const orders = useSelector((state) => state.orders.orders);
   const orderProducts = useSelector((state) => state.orderProducts.orderProducts || []);
 
-  const storedProducts = JSON.parse(localStorage.getItem('products'));
-  const [products, setProducts] = useState(storedProducts);
+  // Initialize the storedProducts state with the products from local storage or an empty array
+  const [storedProducts, setStoredProducts] = useState(
+    JSON.parse(localStorage.getItem('products')) || []
+  );
 
   useEffect(() => {
-    localStorage.setItem('products', JSON.stringify(products));
-  }, [products]);
+    localStorage.setItem('products', JSON.stringify(storedProducts));
+  }, [storedProducts]);
 
   useEffect(() => {
     dispatch(me());
@@ -27,8 +29,10 @@ export const Cart = () => {
   useEffect(() => {
     if (userId) {
       dispatch(getIncompleteOrders(userId));
+      // If the user is authorized, initialize storedProducts state with orderProducts from redux store
+      setStoredProducts(orderProducts);
     }
-  }, [dispatch, userId]);
+  }, [dispatch, userId, orderProducts]);
 
   useEffect(() => {
     if (orders?.length > 0) {
@@ -39,57 +43,83 @@ export const Cart = () => {
 
   const handleIncrement = (orderProductId) => {
     dispatch(incrementProduct(orderProductId));
+
+    // Update the storedProducts state after incrementing the product quantity
+    setStoredProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product.id === orderProductId
+          ? { ...product, quantity: product.quantity + 1 }
+          : product
+      )
+    );
   };
 
   const handleDecrement = (orderProductId) => {
     dispatch(decrementProduct(orderProductId));
+
+    // Update the storedProducts state after decrementing the product quantity
+    setStoredProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product.id === orderProductId
+          ? { ...product, quantity: product.quantity - 1 }
+          : product
+      )
+    );
   };
 
   const handleRemove = (orderProductId) => {
     dispatch(removeFromCart(orderProductId));
+
+    // Update the storedProducts state after removing the product
+    setStoredProducts((prevProducts) =>
+      prevProducts.filter((product) => product.id !== orderProductId)
+    );
   };
 
-  if (!userId || !orderProducts || orders?.length === 0) {
-    return null;
-  }
-
-// Return form for users that are NOT signed in
-if (!userId) {
-  return (
-    <div className="cart-container">
-      <h1>Your Cart</h1>
-      {storedProducts && storedProducts.length > 0 ? (
-        <>
-          {storedProducts.map((storedProduct) => (
-            <div className="product-item" key={storedProduct.id}>
-              <p className="product-name">Product: {storedProduct.name}</p>
-              <p className="product-price">Price: {storedProduct.price}</p>
-              <div className="product-quantity">
-                Quantity: {storedProduct.quantity}
-                <button onClick={() => handleIncrement(orderProduct.id)}>
-                  +
-                </button>
-                <button onClick={() => handleDecrement(orderProduct.id)}>
-                  -
-                </button>
+  // Return form for users that are NOT signed in
+  if (!userId) {
+    return (
+      <div className="cart-container">
+        <h1>Your Cart</h1>
+        {storedProducts && storedProducts.length > 0 ? (
+          <>
+            {storedProducts.map((storedProduct) => (
+              <div className="product-item" key={storedProduct.id}>
+                {/* Display product details for unauthorized users */}
+                <p className="product-name">Product: {storedProduct.name}</p>
+                <p className="product-price">Price: {storedProduct.price}</p>
+                <div className="product-quantity">
+                  Quantity: {storedProduct.quantity}
+                  <button onClick={() => handleIncrement(storedProduct.id)}>
+                    +
+                  </button>
+                  <button onClick={() => handleDecrement(storedProduct.id)}>
+                    -
+                  </button>
+                </div>
+                <p>
+                  <button onClick={() => handleRemove(storedProduct.id)}>
+                    Remove Item
+                  </button>
+                </p>
               </div>
-              <p>
-                <button onClick={() => handleRemove(orderProduct.id)}>
-                  Remove Item
-                </button>
-              </p>
-            </div>
-          ))}
-          </> )
- : (
-  <p className="empty-cart">Your cart is empty!</p>
-          )}
-         { orderProducts.length > 0 ?
-           <h2>Your total is ${orderProducts.reduce((total, orderProduct) => total + orderProduct.product.price * orderProduct.quantity, 0)}</h2>
-          : null }
-        </div>
-      )}
-  ;
+            ))}
+          </>
+        ) : (
+          <p className="empty-cart">Your cart is empty!</p>
+        )}
+        {orderProducts.length > 0 ? (
+          <h2>
+            Your total is ${orderProducts.reduce(
+              (total, orderProduct) =>
+                total + orderProduct.product.price * orderProduct.quantity,
+              0
+            )}
+          </h2>
+        ) : null}
+      </div>
+    );
+  }
 
 
 // Return form for Users that are logged in
