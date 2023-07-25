@@ -14,7 +14,7 @@ const Landing = (props) => {
       <h3>Recommended for you</h3>
       <div className="all-products-container">
   {products ? (
-    products.slice(0, 3).map((product) => (
+    products.slice(12, 15).map((product) => (
       <div className="product-container" key={product.id}>
         <NavLink to={`/products/${product.id}`}>
           <p id="product-name">{product.name}</p>
