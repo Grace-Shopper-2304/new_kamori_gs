@@ -20,6 +20,7 @@ const AuthForm = ({ name, displayName }) => {
 
     if (formName === "login") {
       dispatch(authenticate({ username, password, method: formName }));
+
     } else if (formName === "signup") {
       const email = evt.target.email.value;
       const fullName = evt.target.fullName.value;
@@ -27,7 +28,7 @@ const AuthForm = ({ name, displayName }) => {
 
       dispatch(authenticate({ username, password, fullName, email, address, method: formName }));
     }
-  };
+  }
 
   return (
     <div>
@@ -75,18 +76,20 @@ const AuthForm = ({ name, displayName }) => {
             <label htmlFor="password">
               <small>Create a Secure Password</small>
             </label>
-            <input name="password" type="text" />
+            <input name="password" type="password" />
           </div>
           <div>
             <label htmlFor="address">
               <small>Mailing Address</small>
             </label>
-            <input name="address" type="text" />
+            <textarea
+            name="address"
+          />
           </div>
           <div>
             <button type="submit">{displayName}</button>
           </div>
-          {error && <div>{error}</div>}
+          {error ? <div>Error with signup. Please double check your information.</div> : null }
         </form>
       )}
     </div>

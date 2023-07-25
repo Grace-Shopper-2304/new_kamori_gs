@@ -35,20 +35,6 @@ async function seed() {
     // For each user in the array, you are going to create a new user instance in the database
     await Promise.all(users.map((user) => Users.create(user)));
 
-
-    // Declare a variable and set it equal to an array. 
-    let orders = []
-
-    // This for loop decides how many datapoints you will create.
-    // If you want to change the amount, just change the number in the for loop!
-    for (let i = 1; i <= 100; i++) {
-      let newOrder = { userId: i }
-      orders.push(newOrder)
-    }
-
-    // For each user in the array, you are going to create a new user instance in the database
-    await Promise.all(orders.map((order) => Orders.create(order)))
-
     // Declare a variable and set it equal to an array. 
     let products = []
     // let prices = [] // Array to store the randomly generated prices
@@ -117,11 +103,6 @@ async function seed() {
 
     // For each user in the array, you are going to create a new user instance in the database
     await Promise.all(orderProducts.map((oProduct) => OrderProducts.create(oProduct))); */
-
-    console.log(`seeded ${users.length} users. Woof~`)
-    console.log(`seeded ${orders.length} orders. Woof~`)
-    console.log(`seeded ${products.length} products. Woof~`)
-    console.log(`seeded order products. Woof~`)
 
   } catch (err) {
     console.log(err)
