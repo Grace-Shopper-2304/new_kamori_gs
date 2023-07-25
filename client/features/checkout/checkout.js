@@ -4,6 +4,7 @@ import { getIncompleteOrders } from '../../store/ordersSlice'
 import { me } from '../auth/authSlice'
 import { getOrderProducts } from '../../store/orderProductsSlice'
 import { incrementProduct, decrementProduct, removeFromCart, deleteAllCart, updateProductQuantities } from '../../store/orderProductsSlice'
+import { Link } from 'react-router-dom';
 
 const Checkout = () => {
   const dispatch = useDispatch()
@@ -54,7 +55,7 @@ if (!userId || orders.length === 0 || !orderProducts) {
   return (
     <div>
       <h1>Your Cart</h1>
-      { userId && orders.length > 0 ? (
+      {
         <>
        {orders.map((order) => (
         <div key={order.id}>
@@ -82,18 +83,14 @@ if (!userId || orders.length === 0 || !orderProducts) {
         </div>
       ))}
     </>
-  ) : (
-    <div>
-      Not logged in stuff here
-    </div>
-  )}
+  }
   <div>
       {
         //this button should empty the user's cart (loggedInProducts or localUserProducts) and take user back to main page
         //should also decrement the products table by how much the user bought
         //add a link to the main page here on the button
       }
-      <button onClick={() => handleCompleteCheckout()}>Complete Checkout</button>
+      <Link to="/home"><button onClick={() => handleCompleteCheckout()}>Complete Checkout</button></Link>
     </div>
 
   </div>
