@@ -27,24 +27,3 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-//update products table with updated quantities for what the user bought
-router.put('/:id/update', async (req, res, next) => {
-  
-  try {
-    //get the quantities for what was ordered
-    const productQuantitiesWithProd = await OrderProducts.findAll({
-    where: { orderId: req.params.id },
-    include: [Products], 
-  });
-  //go through each product and update the quantity
-  for (let i = 0; i < productQuantitiesWithProd.products.length; i++) {
-    //the line below should be updating the products table with the quantities of product ordered
-    productQuantitiesWithProd.products[i].quantity = productQuantitiesWithProd[i].quantity;
-    await productQuantitiesWithProd.products[i].save();
-  }
-  res.send(productQuantitiesWithProd);
-  } catch (err) {
-    next(err);
-  }
-
-})

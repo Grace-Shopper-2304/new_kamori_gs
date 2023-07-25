@@ -5,6 +5,7 @@ import { getIncompleteOrders } from '../../store/ordersSlice';
 import { me } from '../auth/authSlice';
 import { getOrderProducts } from '../../store/orderProductsSlice';
 import { incrementProduct, decrementProduct, removeFromCart } from '../../store/orderProductsSlice';
+import { Link } from 'react-router-dom';
 
 export const Cart = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ export const Cart = () => {
       const currentCart = orders[0];
       dispatch(getOrderProducts(currentCart.id));
     }
-  }, [dispatch, orders]);
+  }, [dispatch]);
 
   const handleIncrement = (orderProductId) => {
     dispatch(incrementProduct(orderProductId));
@@ -108,15 +109,11 @@ export const Cart = () => {
         ) : (
           <p className="empty-cart">Your cart is empty!</p>
         )}
-        {orderProducts.length > 0 ? (
-          <h2>
-            Your total is ${orderProducts.reduce(
-              (total, orderProduct) =>
-                total + orderProduct.product.price * orderProduct.quantity,
-              0
-            )}
-          </h2>
-        ) : null}
+        {storedProducts.length > 0 ? (
+          <>
+          <p>Please log in or sign up in order to check out!</p>
+          </>
+        ) : (null)}
       </div>
     );
   }
@@ -126,7 +123,7 @@ export const Cart = () => {
 return (
   <div className="cart-container">
     <h1>Your Cart</h1>
-    {userId && orders.length > 0 ? (
+    {
       <>
         {orders.map((order) => (
           <div className="product-item" key={order.id}>
@@ -179,14 +176,14 @@ return (
           </div>
         ))}
       </>
-    ) : (
-      <div>Not logged in stuff here</div>
-    )}
+    }
     {orderProducts.length > 0 ? (
-      <>
-        <button className="checkout-button" type="button">Checkout</button>
-      </>
-    ) : null}
+  <>
+    <Link to="/checkout"><button className="checkout-button" type="button">Checkout</button></Link>
+  </>
+) : (
+  null
+)}
   </div>
 );
 }

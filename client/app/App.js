@@ -16,38 +16,16 @@ const App = () => {
   }, [dispatch]);
 
   const products = useSelector(selectProducts);
-  const location = useLocation();
-  const isProductsPage = location.pathname === '/products';
-  const isCart = location.pathname === '/cart';
-  const isHome = location.pathname === '/home';
+
 
   return (
     <div>
       <Navbar />
       <AppRoutes />
-      {isProductsPage && (
-          <div className="all-products-container">
-          {products.map(product => {
-            return (
-              <div className="product-container">
-              <tr>
-                <Products
-                product={product}/>
-              </tr>
-              </div>
-            )
-          })
-        }
-        </div>
-      )}
-      {isCart && (
-        <Cart />
-      )}
-      {isHome && (
-        <Landing />
-      )}
     </div>
   );
 };
 
 export default App;
+
+
