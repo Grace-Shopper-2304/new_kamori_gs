@@ -62,7 +62,7 @@ async function seed() {
 
       let newProducts = {
         name: faker.commerce.productName(),
-        image: faker.image.urlLoremFlickr({ category: 'fashion' }),
+        image: faker.image.urlLoremFlickr({ category: 'business' }),
         description: faker.commerce.productAdjective(),
         category: faker.commerce.product(),
         price: faker.commerce.price({ min: 1, max: 200 }),
