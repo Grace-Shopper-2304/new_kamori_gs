@@ -82,7 +82,9 @@ const AuthForm = ({ name, displayName }) => {
             <label htmlFor="address">
               <small>Mailing Address</small>
             </label>
-            <input name="address" type="text" />
+            <textarea
+            name="address"
+          />
           </div>
           <div>
             <button type="submit">{displayName}</button>
