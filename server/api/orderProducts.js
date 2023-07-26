@@ -4,9 +4,7 @@ module.exports = router
 
 router.post("/", async (req, res, next) => {
   try {
-    console.log('req body', req.body)
     const newOrderProduct = await OrderProducts.create(req.body)
-    console.log('req body2', req.body)
     res.send(newOrderProduct)
   } catch (error) {
     next(error);
