@@ -1,16 +1,22 @@
-'use strict'
+"use strict";
 
-const { db, Users, Products, Orders, OrderProducts } = require('../server/db/models')
-const { faker } = require('@faker-js/faker');
+const {
+  db,
+  Users,
+  Products,
+  Orders,
+  OrderProducts,
+} = require("../server/db/models");
+const { faker } = require("@faker-js/faker");
 
 async function seed() {
-  try {    
+  try {
     //reset tables and creates the tables from scratch when seeding
-    await db.sync({ force: true })
-    console.log('db synced!')
+    await db.sync({ force: true });
+    console.log("db synced!");
 
-    // Declare a variable and set it equal to an array. 
-    let users = []
+    // Declare a variable and set it equal to an array.
+    let users = [];
 
     // This for loop decides how many datapoints you will create.
     // If you want to change the amount, just change the number in the for loop!
@@ -20,69 +26,75 @@ async function seed() {
       let newUser = {
         email: faker.internet.email(),
         username: faker.internet.userName(),
-        address: faker.location.streetAddress() + ", " + faker.location.city() + ", " + faker.location.state({ abbreviated: true }) + ' ' + faker.location.zipCode('#####'),
-        phone: faker.phone.number('+1 ###-###-####'),
-        // password: faker.internet.password({ length: 10}),
-        password: 'hi',
-
-      }
-      console.log(`Username|Password for user ${i + 1} is:`, newUser.username, `|` ,newUser.password);
+        address:
+          faker.location.streetAddress() +
+          ", " +
+          faker.location.city() +
+          ", " +
+          faker.location.state({ abbreviated: true }) +
+          " " +
+          faker.location.zipCode("#####"),
+        phone: faker.phone.number("+1 ###-###-####"),
+        password: "hi",
+      };
+      console.log(
+        `Username|Password for user ${i + 1} is:`,
+        newUser.username,
+        `|`,
+        newUser.password
+      );
 
       // For each fake user you create, you're going to push them into the user array you declare above
-      users.push(newUser)
+      users.push(newUser);
     }
 
     // For each user in the array, you are going to create a new user instance in the database
     await Promise.all(users.map((user) => Users.create(user)));
 
-    // Declare a variable and set it equal to an array. 
-    let products = []
+    // Declare a variable and set it equal to an array.
+    let products = [];
     // let prices = [] // Array to store the randomly generated prices
 
     // This for loop decides how many datapoints you will create.
     // If you want to change the amount, just change the number in the for loop!
     for (let i = 0; i < 50; i++) {
-      
       // The keys in this user object are set equal to the fake information
 
       let newProducts = {
         name: faker.commerce.productName(),
-        image: faker.image.urlLoremFlickr({ category: 'business' }),
+        image: faker.image.urlLoremFlickr({ category: "business" }),
         description: faker.commerce.productAdjective(),
         category: faker.commerce.product(),
         price: faker.commerce.price({ min: 1, max: 200 }),
-        stock: faker.number.int({ min: 10, max: 50 })
-      }
+        stock: faker.number.int({ min: 10, max: 50 }),
+      };
 
       // For each fake user you create, you're going to push them into the user array you declare above
-      products.push(newProducts)
+      products.push(newProducts);
     }
 
     // For each user in the array, you are going to create a new user instance in the database
     await Promise.all(products.map((product) => Products.create(product)));
 
-    // Declare a variable and set it equal to an array. 
-
+    // Declare a variable and set it equal to an array
     // The keys in this user object are set equal to the fake information
 
-      const allProducts = await Products.findAll();
+    const allProducts = await Products.findAll();
 
-      for (const product of allProducts) {
-        const orderProductData = {
-          orderId: faker.number.int({ min: 1, max: 20 }),
-          productId: faker.number.int({ min: 1, max: 20 }),
-          quantity: faker.number.int({ min: 1, max: 5 }),
-        };
-      
-        await OrderProducts.create(orderProductData);
-      }
+    for (const product of allProducts) {
+      const orderProductData = {
+        orderId: faker.number.int({ min: 1, max: 20 }),
+        productId: faker.number.int({ min: 1, max: 20 }),
+        quantity: faker.number.int({ min: 1, max: 5 }),
+      };
 
-
+      await OrderProducts.create(orderProductData);
+    }
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 
-  console.log(`seeded successfully`)
+  console.log(`seeded successfully`);
 }
 
 /*
@@ -91,16 +103,16 @@ async function seed() {
  The `seed` function is concerned only with modifying the database.
 */
 async function runSeed() {
-  console.log('seeding...')
+  console.log("seeding...");
   try {
-    await seed()
+    await seed();
   } catch (err) {
-    console.error(err)
-    process.exitCode = 1
+    console.error(err);
+    process.exitCode = 1;
   } finally {
-    console.log('closing db connection')
-    await db.close()
-    console.log('db connection closed')
+    console.log("closing db connection");
+    await db.close();
+    console.log("db connection closed");
   }
 }
 
@@ -110,8 +122,8 @@ async function runSeed() {
   any errors that might occur inside of `seed`.
 */
 if (module === require.main) {
-  runSeed()
+  runSeed();
 }
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
-module.exports = seed
+module.exports = seed;
